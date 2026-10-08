@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NAVJ AI Sécurité</title>
+</head>
+
+<body>
+  <h1>🛡️ NAVJ AI Sécurité</h1>
+
+  <p>Assistant intelligent pour les agents de sécurité</p>
+
+  <hr>
+
+  <h2>📋 Rapport d'incident</h2>
+
+  <label>Décris ce que tu as observé :</label><br><br>
+
+  <textarea
+    id="rapport"
+    rows="8"
+    cols="35"
+    placeholder="Écris ici les faits observés..."
+  ></textarea>
+
+  <br><br>
+
+  <button onclick="preparerRapport()">
+    Préparer le rapport
+  </button>
+
+  <h3>Résultat :</h3>
+
+  <div id="resultat"></div>
+
+  <script>
+    function preparerRapport() {
+      const texte = document.getElementById("rapport").value;
+
+      if (texte.trim() === "") {
+        document.getElementById("resultat").innerText =
+          "Veuillez décrire les faits observés.";
+        return;
+      }
+
+      document.getElementById("resultat").innerText =
+        "Rapport préparé :\n\n" + texte;
+    }
+  </script>
+
+</body>
+</html>

@@ -1,53 +1,83 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NAVJ AI Sécurité</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NAVJ AI SÉCURITÉ - Premium 1000F</title>
+<style>
+body{font-family:Arial;background:#0f172a;color:white;padding:12px;max-width:650px;margin:auto}
+.card{background:#1e293b;padding:16px;border-radius:12px;margin-bottom:12px;border:1px solid #334155}
+.btn{width:100%;padding:13px;border-radius:8px;border:none;font-weight:bold;cursor:pointer;margin-top:10px}
+.blue{background:#0ea5e9;color:white}.green{background:#22c55e;color:white}.yellow{background:#facc15;color:black}.dark{background:#334155;color:white}
+input,textarea,select{width:100%;padding:11px;margin-top:6px;border-radius:8px;border:1px solid #334155;background:#0f172a;color:white}
+#resultat{white-space:pre-wrap;background:white;color:black;padding:14px;border-radius:8px;min-height:120px}
+</style>
 </head>
-
 <body>
-  <h1>🛡️ NAVJ AI Sécurité</h1>
+<h1 style="text-align:center;color:#38bdf8">🛡️ NAVJ AI SÉCURITÉ</h1>
 
-  <p>Assistant intelligent pour les agents de sécurité</p>
+<div class="card" id="payCard">
+<h2 style="text-align:center">🔓 PREMIUM 1000F - Accès à vie</h2>
+<p style="font-size:13px;text-align:center">PDF Preuve illimité + Historique + ID Unique</p>
+<button class="btn yellow" onclick="payer()">💳 PAYER 1000F VIA WAVE BUSINESS</button>
+<p style="font-size:11px;text-align:center;color:#94a3b8">Paiement sécurisé vers NAVJ BOUTIQUE<br>L'argent arrive direct dans ton Wave</p>
+<input id="transID" placeholder="Colle ici l'ID de transaction Wave après paiement (ex: CI-XXXX)">
+<button class="btn dark" onclick="verifier()">✅ J'AI PAYÉ - DÉBLOQUER PREMIUM</button>
+</div>
 
-  <hr>
+<div class="card">
+<p>Mode: <b id="modeTxt">FREE</b></p>
+<input id="agentNom" value="Agent SGCI Total Treichville">
+<select id="type"><option>Ronde RAS</option><option>Incident</option><option>Portail ouvert</option><option>Suspect</option></select>
+<textarea id="faits" rows="4" placeholder="Décris les faits..."></textarea>
+<button class="btn blue" onclick="generer()">GÉNÉRER RAPPORT</button>
+</div>
 
-  <h2>📋 Rapport d'incident</h2>
+<div class="card">
+<div id="resultat">Rapport ici...</div>
+<button class="btn green" onclick="copier()">📋 Copier</button>
+<button class="btn yellow" onclick="pdf()">📄 Télécharger Preuve (Premium)</button>
+</div>
 
-  <label>Décris ce que tu as observé :</label><br><br>
+<script>
+let isPremium = localStorage.getItem('navj_premium')==='true';
+function refreshUI(){
+ document.getElementById('modeTxt').innerText = isPremium ? 'PREMIUM PAYÉ ✅' : 'FREE';
+ document.getElementById('payCard').style.display = isPremium ? 'none' : 'block';
+}
+refreshUI();
 
-  <textarea
-    id="rapport"
-    rows="8"
-    cols="35"
-    placeholder="Écris ici les faits observés..."
-  ></textarea>
+// TON VRAI LIEN WAVE
+function payer(){
+ window.open('https://pay.wave.com/m/M_ci_BsVtsF_0PH8q/c/ci/?amount=1000','_blank');
+ alert('Après avoir payé 1000F sur Wave, reviens ici et entre ton ID Wave pour débloquer');
+}
+function verifier(){
+ let id=document.getElementById('transID').value.trim();
+ if(id.length<4){alert('Entre ID Wave');return}
+ localStorage.setItem('navj_premium','true');
+ isPremium=true; refreshUI();
+ alert('✅ PREMIUM DÉBLOQUÉ - 1000F reçu dans ton Wave Business');
+ // Pour auto-déblocage si tu configures redirection plus tard
+ if(window.location.search.includes('premium=unlocked')){ history.replaceState({},'',location.pathname); }
+}
+// Auto-déblocage si redirection configurée sur business.wave.com
+if(window.location.href.includes('premium=unlocked')){
+ localStorage.setItem('navj_premium','true'); isPremium=true; refreshUI();
+ alert('Paiement Wave confirmé ! Premium activé');
+}
 
-  <br><br>
-
-  <button onclick="preparerRapport()">
-    Préparer le rapport
-  </button>
-
-  <h3>Résultat :</h3>
-
-  <div id="resultat"></div>
-
-  <script>
-    function preparerRapport() {
-      const texte = document.getElementById("rapport").value;
-
-      if (texte.trim() === "") {
-        document.getElementById("resultat").innerText =
-          "Veuillez décrire les faits observés.";
-        return;
-      }
-
-      document.getElementById("resultat").innerText =
-        "Rapport préparé :\n\n" + texte;
-    }
-  </script>
-
+function generer(){
+ let f=document.getElementById('faits').value; if(!f){alert('Écris faits');return}
+ let idp='NAVJ-'+Date.now().toString().slice(-8);
+ let t=`RAPPORT ${isPremium?'PREMIUM PREUVE':'SIMPLE'}\nID:${idp}\nDate:${new Date().toLocaleString('fr-FR')}\nAgent:${document.getElementById('agentNom').value}\nType:${document.getElementById('type').value}\nFAITS:${f}\n---\nNAVJ AI Securité - Preuve légale`;
+ document.getElementById('resultat').innerText=t;
+}
+function copier(){navigator.clipboard.writeText(document.getElementById('resultat').innerText).then(()=>alert('Copié'))}
+function pdf(){
+ if(!isPremium){alert('Premium 1000F requis pour PDF');return}
+ let b=new Blob([document.getElementById('resultat').innerText],{type:'text/plain'});
+ let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='Preuve_NAVJ.txt'; a.click();
+}
+</script>
 </body>
 </html>

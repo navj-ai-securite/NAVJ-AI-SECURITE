@@ -1,83 +1,45 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NAVJ AI SÉCURITÉ - Premium 1000F</title>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>NAVJ AI SECURITE</title>
 <style>
-body{font-family:Arial;background:#0f172a;color:white;padding:12px;max-width:650px;margin:auto}
-.card{background:#1e293b;padding:16px;border-radius:12px;margin-bottom:12px;border:1px solid #334155}
-.btn{width:100%;padding:13px;border-radius:8px;border:none;font-weight:bold;cursor:pointer;margin-top:10px}
-.blue{background:#0ea5e9;color:white}.green{background:#22c55e;color:white}.yellow{background:#facc15;color:black}.dark{background:#334155;color:white}
-input,textarea,select{width:100%;padding:11px;margin-top:6px;border-radius:8px;border:1px solid #334155;background:#0f172a;color:white}
-#resultat{white-space:pre-wrap;background:white;color:black;padding:14px;border-radius:8px;min-height:120px}
-</style>
-</head>
-<body>
-<h1 style="text-align:center;color:#38bdf8">🛡️ NAVJ AI SÉCURITÉ</h1>
-
-<div class="card" id="payCard">
-<h2 style="text-align:center">🔓 PREMIUM 1000F - Accès à vie</h2>
-<p style="font-size:13px;text-align:center">PDF Preuve illimité + Historique + ID Unique</p>
-<button class="btn yellow" onclick="payer()">💳 PAYER 1000F VIA WAVE BUSINESS</button>
-<p style="font-size:11px;text-align:center;color:#94a3b8">Paiement sécurisé vers NAVJ BOUTIQUE<br>L'argent arrive direct dans ton Wave</p>
-<input id="transID" placeholder="Colle ici l'ID de transaction Wave après paiement (ex: CI-XXXX)">
-<button class="btn dark" onclick="verifier()">✅ J'AI PAYÉ - DÉBLOQUER PREMIUM</button>
+body{margin:0;font-family:system-ui;background:#050e1e;color:white;overflow-x:hidden}
+.water{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:radial-gradient(circle at 50% 0%,#0a2a5a,#020a17)}
+.wave{position:absolute;width:200%;height:300px;background:linear-gradient(90deg,transparent,rgba(0,150,255,0.25),transparent);animation:flow 6s infinite linear;top:10%;border-radius:50%}
+.wave2{top:30%;animation-duration:9s;opacity:0.5}.wave3{top:60%;animation-duration:13s;opacity:0.25}
+@keyframes flow{0%{transform:translateX(-50%)}100%{transform:translateX(0%)}}
+.card{background:rgba(255,255,255,0.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.15);border-radius:22px;padding:18px;margin:14px}
+.avatar{width:120px;height:120px;border-radius:50%;border:4px solid #ffcc00;box-shadow:0 0 25px #0066ff;object-fit:cover}
+.btn-gold{width:100%;padding:16px;border:none;border-radius:14px;background:linear-gradient(90deg,#ffcc00,#ff9500);color:#000;font-weight:900;font-size:17px}
+.btn-blue{width:100%;padding:14px;border:none;border-radius:12px;background:#0066ff;color:white;font-weight:bold;margin-top:10px}
+input,select,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.2);background:rgba(0,0,0,0.5);color:white;margin-top:10px;box-sizing:border-box}
+.badge{background:gold;color:black;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:bold}
+</style></head><body>
+<div class="water"><div class="wave"></div><div class="wave wave2"></div><div class="wave wave3"></div></div>
+<div class="card" style="text-align:center">
+<div style="font-size:20px">NAVJ AI SECURITE</div>
+<img src="agent.jpg" class="avatar" style="margin-top:12px">
+<div style="margin-top:8px;font-weight:bold">PAPA DERA ELLE - Fondateur</div>
+<div style="font-size:11px;opacity:0.7">@papaderaelle</div>
+<h2>PREMIUM 1000F - A Vie</h2>
+<p style="opacity:0.8;font-size:13px">PDF Preuve Illimite + ID Unique<br>Auto apres paiement</p>
+<button onclick="payerAuto()" class="btn-gold">PAYER 1000F - ACCES AUTOMATIQUE</button>
 </div>
-
 <div class="card">
-<p>Mode: <b id="modeTxt">FREE</b></p>
-<input id="agentNom" value="Agent SGCI Total Treichville">
-<select id="type"><option>Ronde RAS</option><option>Incident</option><option>Portail ouvert</option><option>Suspect</option></select>
-<textarea id="faits" rows="4" placeholder="Décris les faits..."></textarea>
-<button class="btn blue" onclick="generer()">GÉNÉRER RAPPORT</button>
+<div>Mode: <b id="modeText">FREE</b> <span id="badge" class="badge" style="display:none">PREMIUM ACTIF</span></div>
+<input id="agent" placeholder="Ton nom d'agent">
+<select id="poste"><option>Choisis ton poste</option><option>Agent SGCI Total Treichville</option><option>Agent Rondier</option><option>Chef de poste</option><option>Superviseur</option></select>
+<select id="ronde"><option>Ronde RAS</option><option>Ronde avec incident</option><option>Prise de service</option><option>Fin de service</option></select>
+<textarea id="faits" rows="4" placeholder="Decris les faits..."></textarea>
+<button onclick="generer()" class="btn-blue">GENERER RAPPORT</button>
 </div>
-
 <div class="card">
-<div id="resultat">Rapport ici...</div>
-<button class="btn green" onclick="copier()">📋 Copier</button>
-<button class="btn yellow" onclick="pdf()">📄 Télécharger Preuve (Premium)</button>
+<div id="rapport" style="background:white;color:black;padding:15px;border-radius:10px;min-height:90px;white-space:pre-wrap">Rapport ici...</div>
+<button onclick="copier()" style="width:100%;padding:12px;background:#00c851;color:white;border:none;border-radius:10px;margin-top:10px;font-weight:bold">Copier</button>
+<button onclick="checkPremium()" style="width:100%;padding:12px;background:gold;color:black;border:none;border-radius:10px;margin-top:10px;font-weight:bold">Telecharger Preuve Premium</button>
 </div>
-
 <script>
-let isPremium = localStorage.getItem('navj_premium')==='true';
-function refreshUI(){
- document.getElementById('modeTxt').innerText = isPremium ? 'PREMIUM PAYÉ ✅' : 'FREE';
- document.getElementById('payCard').style.display = isPremium ? 'none' : 'block';
-}
-refreshUI();
-
-// TON VRAI LIEN WAVE
-function payer(){
- window.open('https://pay.wave.com/m/M_ci_BsVtsF_0PH8q/c/ci/?amount=1000','_blank');
- alert('Après avoir payé 1000F sur Wave, reviens ici et entre ton ID Wave pour débloquer');
-}
-function verifier(){
- let id=document.getElementById('transID').value.trim();
- if(id.length<4){alert('Entre ID Wave');return}
- localStorage.setItem('navj_premium','true');
- isPremium=true; refreshUI();
- alert('✅ PREMIUM DÉBLOQUÉ - 1000F reçu dans ton Wave Business');
- // Pour auto-déblocage si tu configures redirection plus tard
- if(window.location.search.includes('premium=unlocked')){ history.replaceState({},'',location.pathname); }
-}
-// Auto-déblocage si redirection configurée sur business.wave.com
-if(window.location.href.includes('premium=unlocked')){
- localStorage.setItem('navj_premium','true'); isPremium=true; refreshUI();
- alert('Paiement Wave confirmé ! Premium activé');
-}
-
-function generer(){
- let f=document.getElementById('faits').value; if(!f){alert('Écris faits');return}
- let idp='NAVJ-'+Date.now().toString().slice(-8);
- let t=`RAPPORT ${isPremium?'PREMIUM PREUVE':'SIMPLE'}\nID:${idp}\nDate:${new Date().toLocaleString('fr-FR')}\nAgent:${document.getElementById('agentNom').value}\nType:${document.getElementById('type').value}\nFAITS:${f}\n---\nNAVJ AI Securité - Preuve légale`;
- document.getElementById('resultat').innerText=t;
-}
-function copier(){navigator.clipboard.writeText(document.getElementById('resultat').innerText).then(()=>alert('Copié'))}
-function pdf(){
- if(!isPremium){alert('Premium 1000F requis pour PDF');return}
- let b=new Blob([document.getElementById('resultat').innerText],{type:'text/plain'});
- let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='Preuve_NAVJ.txt'; a.click();
-}
-</script>
-</body>
-</html>
+function payerAuto(){window.open("https://pay.wave.com/m/M_ci_BsVtsF_0PH8q/c/ci/?amount=1000","_blank");setTimeout(()=>{localStorage.setItem('navj_premium','unlocked');document.getElementById('modeText').innerText='PREMIUM';document.getElementById('badge').style.display='inline';alert("Paiement en cours... PREMIUM debloque auto!");location.href="https://navj-ai-securite.github.io/NAVJ-IA-SECURITE/?premium=unlocked";},5000);}
+if(localStorage.getItem('navj_premium')=='unlocked' || location.href.includes('premium=unlocked')){document.getElementById('modeText').innerText='PREMIUM';document.getElementById('badge').style.display='inline';}
+function generer(){let a=document.getElementById('agent').value||"[Agent]";let p=document.getElementById('poste').value;let r=document.getElementById('ronde').value;let f=document.getElementById('faits').value;document.getElementById('rapport').innerText="RAPPORT NAVJ\nAgent: "+a+"\nPoste: "+p+"\nType: "+r+"\nFaits: "+f+"\nHeure: "+new Date().toLocaleString();}
+function copier(){navigator.clipboard.writeText(document.getElementById('rapport').innerText);alert("Copie!");}
+function checkPremium(){if(localStorage.getItem('navj_premium')=='unlocked'){alert("PDF Premium pret");}else{payerAuto()}}
+</script></body></html>

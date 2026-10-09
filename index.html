@@ -29,7 +29,18 @@ input,select,textarea{width:100%;padding:12px;border-radius:10px;border:1px soli
 <select id="poste"><option>Choisis ton poste</option><option>Agent SGCI Total Treichville</option><option>Agent Rondier</option><option>Chef de poste</option><option>Superviseur</option></select>
 <select id="ronde"><option>Ronde RAS</option><option>Ronde avec incident</option><option>Prise de service</option><option>Fin de service</option></select>
 <textarea id="faits" rows="4" placeholder="Decris les faits..."></textarea>
-<button onclick="generer()" class="btn-blue">GENERER RAPPORT</button>
+<!-- BLOC VOCAL PREMIUM 2 - À AJOUTER SANS SUPPRIMER L'ANCIEN -->
+<div id="vocalPremium2" style="border:2px dashed #00C853; padding:12px; border-radius:10px; margin-bottom:10px; background:#f0fff4;">
+  <label style="font-weight:bold; color:#00C853;">🎤 PREMIUM 2 - Rapport Vocal (Audio + Texte)</label>
+  <div style="display:flex; gap:8px; margin-top:8px;">
+    <button id="btnStartVocal" type="button" style="background:#00C853; color:white; border:none; padding:10px 15px; border-radius:8px; font-weight:bold;">🎙️ Parler</button>
+    <button id="btnStopVocal" type="button" style="background:#ff3d00; color:white; border:none; padding:10px 15px; border-radius:8px; display:none;">⏹️ Stop</button>
+    <span id="vocalStatus" style="font-size:13px; color:#333; align-self:center;">Clique sur Parler...</span>
+  </div>
+  <audio id="audioPlayback" controls style="width:100%; margin-top:8px; display:none;"></audio>
+  <small style="color:#666;">Ton audio sera gardé comme preuve dans le PDF.</small>
+</div>
+  <button onclick="generer()" class="btn-blue">GENERER RAPPORT</button>
 </div>
 <div class="card">
 <div id="rapport" style="background:white;color:black;padding:15px;border-radius:10px;min-height:90px;white-space:pre-wrap">Rapport ici...</div>

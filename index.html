@@ -117,18 +117,17 @@ if(btnStart){
   };
   // ==== ENVOI WHATSAPP CHEF ====
 function envoyerWhatsapp(){
-  let num = document.getElementById('numeroChef').value.trim();
-  if(!num){ alert('Mets le numéro du chef d abord ! Ex: +225...'); return; }
+  var num = document.getElementById('numeroChef').value;
+  if(num == ''){ alert('Mets numero chef'); return; }
   localStorage.setItem('navj_numero_chef', num);
-  let agent = document.getElementById('agent')?.value || 'Agent';
-  let poste = document.getElementById('poste')?.value || 'Poste';
-  let faits = document.getElementById('faits')?.value || 'RAS';
-  let msg = `*RAPPORT NAVJ - SECURITE*\n\nAGENT: ${agent}\nPOSTE: ${poste}\nFAITS: ${faits}\n\n_Rapport avec preuve vocale disponible_`;
-  let numClean = num.replace(/[^0-9]/g,'');
-  let url = `https://wa.me/${numClean}?text=${encodeURIComponent(msg)}`;
+  var agent = document.getElementById('agent').value;
+  var poste = document.getElementById('poste').value;
+  var faits = document.getElementById('faits').value;
+  var msg = 'RAPPORT NAVJ - AGENT: ' + agent + ' POSTE: ' + poste + ' FAITS: ' + faits;
+  var numClean = num.replace(/[^0-9]/g,'');
+  var url = 'https://wa.me/' + numClean + '?text=' + encodeURIComponent(msg);
   window.open(url, '_blank');
-  let saved = localStorage.getItem('navj_numero_chef');
-  if(saved && document.getElementById('numeroChef')) document.getElementById('numeroChef').value = saved;
-}, 500);
 }
+var saved = localStorage.getItem('navj_numero_chef');
+if(saved){ document.getElementById('numeroChef').value = saved; }
 </script></body></html>

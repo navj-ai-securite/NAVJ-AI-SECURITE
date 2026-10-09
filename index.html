@@ -53,4 +53,60 @@ if(localStorage.getItem('navj_premium')=='unlocked' || location.href.includes('p
 function generer(){let a=document.getElementById('agent').value||"[Agent]";let p=document.getElementById('poste').value;let r=document.getElementById('ronde').value;let f=document.getElementById('faits').value;document.getElementById('rapport').innerText="RAPPORT NAVJ\nAgent: "+a+"\nPoste: "+p+"\nType: "+r+"\nFaits: "+f+"\nHeure: "+new Date().toLocaleString();}
 function copier(){navigator.clipboard.writeText(document.getElementById('rapport').innerText);alert("Copie!");}
 function checkPremium(){if(localStorage.getItem('navj_premium')=='unlocked'){alert("PDF Premium pret");}else{payerAuto()}}
+// ==== MODULE VOCAL PREMIUM 2 - SÉCURISÉ, N'ÉCRASE RIEN ====
+let mediaRecorder, audioChunks = [], audioBlob = null;
+let recognition;
+
+const btnStart = document.getElementById('btnStartVocal');
+const btnStop = document.getElementById('btnStopVocal');
+const status = document.getElementById('vocalStatus');
+const audioPlayback = document.getElementById('audioPlayback');
+
+// Cible ton champ "Faits" - vérifie son ID, chez toi c'est souvent #faits ou #description
+const champFaits = document.getElementById('faits') || document.getElementById('description') || document.querySelector('textarea');
+
+if(btnStart){
+  btnStart.onclick = async () => {
+    // 1. Lancer l'enregistrement audio
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorder = new MediaRecorder(stream);
+    audioChunks = [];
+    mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+    mediaRecorder.onstop = () => {
+      audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+      audioPlayback.src = URL.createObjectURL(audioBlob);
+      audioPlayback.style.display = 'block';
+      status.textContent = "✅ Audio enregistré + Texte transcrit!";
+    };
+    mediaRecorder.start();
+
+    // 2. Lancer la transcription vocale (français)
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(SpeechRecognition){
+      recognition = new SpeechRecognition();
+      recognition.lang = 'fr-FR';
+      recognition.interimResults = true;
+      recognition.continuous = true;
+      recognition.onresult = (event) => {
+        let transcript = '';
+        for(let i=event.resultIndex; i<event.results.length; i++){
+          transcript += event.results[i][0].transcript;
+        }
+        if(champFaits) champFaits.value = transcript; // Écrit tout seul!
+        status.textContent = "🎧 J'écoute... parle maintenant";
+      };
+      recognition.start();
+    }
+
+    btnStart.style.display = 'none';
+    btnStop.style.display = 'block';
+  };
+
+  btnStop.onclick = () => {
+    if(mediaRecorder) mediaRecorder.stop();
+    if(recognition) recognition.stop();
+    btnStart.style.display = 'block';
+    btnStop.style.display = 'none';
+  };
+}
 </script></body></html>

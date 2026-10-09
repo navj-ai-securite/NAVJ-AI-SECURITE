@@ -108,5 +108,30 @@ if(btnStart){
     btnStart.style.display = 'block';
     btnStop.style.display = 'none';
   };
+  // ==== ENVOI WHATSAPP CHEF ====
+function envoyerWhatsapp(){
+  let num = document.getElementById('numeroChef').value.trim();
+  let agent = document.getElementById('agent')?.value || '';
+  let poste = document.getElementById('poste')?.value || '';
+  let faits = document.getElementById('faits')?.value || '';
+  let rapport = document.getElementById('rapport')?.innerText || document.getElementById('rapport')?.value || faits;
+
+  if(!num){ alert('Entre le numéro WhatsApp du chef d\'abord !'); return; }
+  if(!rapport){ alert('Génère d\'abord le rapport !'); return; }
+
+  // Sauvegarde le numéro pour la prochaine fois
+  localStorage.setItem('navj_numero_chef', num);
+  // Nettoie le numéro pour WhatsApp (enlève espaces)
+  let numClean = num.replace(/[^0-9+]/g,'').replace('+','');
+  
+  let message = `*RAPPORT NAVJ - AGENT:* ${agent}%0A*POSTE:* ${poste}%0A*FAITS:*%0A${faits}%0A%0A*RAPPORT COMPLET:*%0A${rapport}%0A%0A_PDF Preuve vocale disponible sur l'app NAVJ_`;
+  
+  window.open(`https://wa.me/${numClean}?text=${encodeURIComponent(message)}`,'_blank');
+}
+// Charger le numéro sauvegardé au démarrage
+setTimeout(()=>{
+  let saved = localStorage.getItem('navj_numero_chef');
+  if(saved && document.getElementById('numeroChef')) document.getElementById('numeroChef').value = saved;
+}, 500);
 }
 </script></body></html>

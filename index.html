@@ -3,114 +3,74 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NAVJ - Mr N'ké - TOUTES VERSIONS DU DEBUT A LA FIN</title>
+<title>NAVJ Mr N'ké - VERSION LONGUE FINALE TOUTES OPTIONS</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#02040a;color:#fff;font-family:Arial;padding:8px;overflow-x:hidden}
-.water{position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 50% 0%,#ffcc0020,transparent 60%),linear-gradient(180deg,#00112210,#00224430);pointer-events:none;animation:w 4s infinite}
-@keyframes w{0%,100%{opacity:.5}50%{opacity:1}}
-.top{position:relative;background:linear-gradient(135deg,#0a0f1e,#000);border:2px solid #ffcc00;border-radius:18px;padding:18px;text-align:center}
-.flags{font-size:22px;animation:f 2s infinite}@keyframes f{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-.demo{position:absolute;top:8px;right:-28px;background:#ffcc00;color:#000;font-size:8px;font-weight:900;padding:3px 30px;transform:rotate(35deg)}
-.avatar-wrap{margin:10px auto;width:95px;height:95px;border-radius:50%;border:3px solid #ffcc00;overflow:hidden;background:#080b15;position:relative}
+*{box-sizing:border-box}body{margin:0;background:#02040a;color:#fff;font-family:Arial;padding:8px}
+.top{background:linear-gradient(135deg,#0a0f1e,#000);border:2px solid #ffcc00;border-radius:18px;padding:18px;text-align:center;position:relative}
+.flags{font-size:22px}.demo{position:absolute;top:8px;right:-28px;background:#ffcc00;color:#000;font-size:8px;font-weight:900;padding:3px 30px;transform:rotate(35deg)}
+.avatar-wrap{margin:10px auto;width:100px;height:100px;border-radius:50%;border:3px solid #ffcc00;overflow:hidden;background:#080b15;position:relative}
 .avatar-wrap img{width:100%;height:100%;object-fit:cover}
-.btnPhoto{position:absolute;bottom:0;left:50%;transform:translateX(-50%);font-size:8px;background:#ffcc00;color:#000;border:none;border-radius:10px;padding:3px 8px;font-weight:900}
-.top h1{color:#ffcc00;margin:6px 0 0;font-size:23px}
 .card{background:#0e1322;border:1px solid #1e2a4a;border-radius:14px;padding:14px;margin-top:10px}
 .card h3{color:#ffcc00;margin:0 0 10px;font-size:11px;text-transform:uppercase;border-left:3px solid #ffcc00;padding-left:8px}
-input,textarea,select{width:100%;padding:12px;background:#080b15;border:1px solid #253055;border-radius:10px;color:#fff;margin:5px 0;font-size:14px}
-textarea{min-height:115px}
-.btn{width:100%;padding:13px;border-radius:11px;border:none;font-weight:900;font-size:13px;margin-top:8px;cursor:pointer}
-.by{background:#ffcc00;color:#000}.bg{background:#00c853;color:#fff}.br{background:#ef4444;color:#fff;display:none}.bd{background:#1a2340;color:#cbd5e1;border:1px solid #2a3a66}
+input,textarea,select{width:100%;padding:12px;background:#080b15;border:1px solid #253055;border-radius:10px;color:#fff;margin:5px 0}
+textarea{min-height:110px}
+.btn{width:100%;padding:13px;border-radius:11px;border:none;font-weight:900;margin-top:8px;cursor:pointer}
+.by{background:#ffcc00;color:#000}.bg{background:#00c853;color:#fff}.bw{background:#1da1f2;color:#fff}.br{background:#ef4444;color:#fff;display:none}.bd{background:#1a2340;color:#cbd5e1;border:1px solid #2a3a66}
 .row{display:flex;gap:8px}.row>*{flex:1}
-#vocalStatus{text-align:center;color:#ffcc00;font-size:12px;margin-top:6px;min-height:16px}
+#vocalStatus{text-align:center;color:#ffcc00;font-size:12px;margin-top:6px}
 #audioPlayback{width:100%;display:none;margin-top:8px}
 .preview{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.preview img{width:72px;height:72px;object-fit:cover;border-radius:8px;border:2px solid #ffcc00}
 .sig{width:100%;height:115px;background:#080b15;border:1px dashed #ffcc00;border-radius:10px;touch-action:none}
-.payBox{background:#080b15;border:1px dashed #ffcc0060;border-radius:10px;padding:10px}
-.version{font-size:9px;color:#334155;text-align:center;margin-top:6px}
 </style>
 </head>
 <body>
-<div class="water"></div>
-
-<!-- TOP TOUTES VERSIONS -->
 <div class="top">
-<div class="demo">TOUTES VERSIONS • Mr N'ké</div>
-<div class="flags">🇨🇮 🇨🇮 🇨🇮 NAVJ SECURITE 🇨🇮 🇨🇮 🇨🇮</div>
-<div class="avatar-wrap">
-<img id="avatarImg" src="https://ui-avatars.com/api/?name=Mr+Nke&background=ffcc00&color=000&size=200" alt="Mr N'ké">
-<input type="file" id="avatarInput" accept="image/*" style="display:none">
-<button class="btnPhoto" onclick="document.getElementById('avatarInput').click()">📸 MA PHOTO</button>
-</div>
-<h1>Mr N'ké - TOUTES VERSIONS</h1>
-<div style="font-size:10px;color:#ffcc00">DEBUT ➜ VOCAL ➜ PHOTOS ➜ WHATSAPP ➜ DRAPEAUX ➜ EAU ➜ PAIEMENT ➜ SIGNATURE ➜ PDF</div>
-<div id="gps" style="font-size:10px;color:#64748b;margin-top:4px">📍 GPS Mr N'ké...</div>
-<div class="version">V1 Début | V2 Vocal | V3 Photos | V4 WhatsApp | V5 Drapeaux+Eau | V6 Paiement+Photo | V7 FINALE TOUT</div>
+<div class="demo">FINALE LONGUE • Mr N'ké • TOUTES OPTIONS</div>
+<div class="flags">🇨🇮 NAVJ SECURITE - Mr N'ké 🇨🇮</div>
+<div class="avatar-wrap"><img id="avatarImg" src="https://ui-avatars.com/api/?name=Mr+Nke&background=ffcc00&color=000&size=200"><input type="file" id="avatarInput" accept="image/*" style="display:none"><button onclick="document.getElementById('avatarInput').click()" style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);font-size:8px;background:#ffcc00;color:#000;border:none;border-radius:10px;padding:3px 7px;font-weight:900">📸 PHOTO</button></div>
+<h1>Mr N'ké - FINALE LONGUE TOUTES OPTIONS</h1>
+<div style="font-size:10px;color:#ffcc00">V1 Infos + V2 Vocal + V3 Photos + V4 WhatsApp + V5 Drapeaux+Eau+Signature+GPS + V6 Photo Profil+Paiement + V7 Wave Business Auto + V8 PDF - DU DEBUT A LA FIN</div>
+<div id="gps" style="font-size:10px;color:#64748b">📍 GPS Mr N'ké...</div>
 </div>
 
-<!-- V4 WHATSAPP -->
-<div class="card">
-<h3>1 - WHATSAPP CHEF - V4 PREMIUM 3</h3>
-<input id="numeroChef" placeholder="+225 07 XX XX XX XX">
-<button class="btn bg" onclick="envoyerWhatsapp()">📲 ENVOYER AU CHEF VIA WHATSAPP - Mr N'ké</button>
-</div>
+<div class="card"><h3>WHATSAPP CHEF V4</h3><input id="numeroChef" placeholder="+225 Chef"><button class="btn bg" onclick="envoyerWhatsapp()">📲 ENVOYER AU CHEF</button></div>
 
-<!-- V1 INFOS DE BASE -->
-<div class="card">
-<h3>2 - INFOS AGENT - V1 DEBUT</h3>
-<div class="row"><input id="agent" value="Mr N'ké"><input id="poste" placeholder="Poste / Site"></div>
-<div class="row"><input id="dateRapport" type="date"><input id="heureRapport" type="time"></div>
-<select id="typeIncident"><option>Ronde RAS - Mr N'ké</option><option>Incident Mineur</option><option>Incident Majeur</option><option>Intrusion</option><option>Vol</option><option>Panne</option><option>Autre</option></select>
-<input id="localisation" placeholder="Localisation précise">
-</div>
+<div class="card"><h3>INFOS AGENT V1</h3><div class="row"><input id="agent" value="Mr N'ké"><input id="poste" placeholder="Poste"></div><div class="row"><input id="dateRapport" type="date"><input id="heureRapport" type="time"></div><select id="typeIncident"><option>Ronde RAS Mr N'ké</option><option>Incident Mineur</option><option>Incident Majeur</option><option>Intrusion</option><option>Vol</option><option>Autre</option></select><input id="localisation" placeholder="Localisation"></div>
 
-<!-- V6 PAIEMENT -->
-<div class="card">
-<h3>3 - PAIEMENT - V6 RESTAURÉ - DU DEBUT A LA FIN</h3>
-<div class="payBox">
-<div class="row"><input id="montantTotal" type="number" value="150000" placeholder="Total FCFA"><input id="avance" type="number" placeholder="Avance"></div>
-<div class="row"><input id="reste" readonly placeholder="Reste"><select id="statutPaiement"><option>Non Payé</option><option>Avance Payée</option><option>Payé Complet</option></select></div>
-<div class="row"><select id="modePaiement"><option>Wave</option><option>Orange Money</option><option>MTN</option><option>Espèces</option><option>Virement</option></select><input id="datePaiement" type="date"></div>
+<div class="card"><h3>PAIEMENT V6 + WAVE BUSINESS V7 - FINALE LONGUE</h3>
+<div style="background:#080b15;border:1px dashed #ffcc0040;border-radius:10px;padding:10px">
+<div class="row"><input id="montantTotal" type="number" value="150000" placeholder="Total"><input id="avance" type="number" placeholder="Avance"></div>
+<div class="row"><input id="reste" readonly placeholder="Reste auto"><select id="statutPaiement"><option>Non Payé</option><option>Avance Payée</option><option>Payé Complet</option></select></div>
+<div class="row"><select id="modePaiement"><option>Wave</option><option>Orange Money</option><option>MTN</option><option>Espèces</option><option>Wave Business Auto</option></select><input id="datePaiement" type="date"></div>
+</div>
+<div style="background:linear-gradient(135deg,#1da1f215,#ffcc0010);border:2px solid #1da1f2;border-radius:12px;padding:12px;margin-top:10px;text-align:center">
+<input id="waveBusinessNumero" placeholder="Ton numéro Wave Business que tu as créé" style="border-color:#1da1f2">
+<div class="row"><input id="montantWave" readonly placeholder="Montant Wave"><button class="btn bw" onclick="genererLienWaveBusiness()">💙 GÉNÉRER LIEN WAVE BUSINESS AUTO</button></div>
+<div id="waveLinkResult" style="display:none;background:#000;padding:10px;border-radius:8px;margin-top:8px;font-size:11px;word-break:break-all"></div>
+<div id="qrWave" style="display:flex;justify-content:center;margin-top:8px"></div>
+<button id="btnConfirmerPaiement" class="btn bg" style="display:none" onclick="confirmerPaiementWave()">✅ CONFIRMER PAIEMENT REÇU WAVE</button>
 </div>
 </div>
 
-<!-- V2 VOCAL -->
-<div class="card">
-<h3>4 - VOCAL - V2 PREMIUM 1 - DU DEBUT A LA FIN</h3>
-<textarea id="faits" placeholder="Mr N'ké - Parle ici, ça écrit tout seul depuis V2..."></textarea>
-<button id="btnStartVocal" class="btn by">🎤 ENREGISTRER VOCAL - V2 + EAU DEMO - Mr N'ké</button>
-<button id="btnStopVocal" class="btn br">⏹️ ARRETER ET SAUVEGARDER AUDIO</button>
-<div id="vocalStatus">💧 Prêt - V2 Vocal + V5 Eau Demo</div>
-<audio id="audioPlayback" controls></audio>
-</div>
+<div class="card"><h3>VOCAL V2 LONGUE</h3><textarea id="faits" placeholder="Parle ici Mr N'ké..."></textarea><button id="btnStartVocal" class="btn by">🎤 ENREGISTRER VOCAL</button><button id="btnStopVocal" class="btn br">⏹️ ARRETER</button><div id="vocalStatus">Prêt</div><audio id="audioPlayback" controls></audio></div>
 
-<!-- V3 PHOTOS -->
-<div class="card">
-<h3>5 - PHOTOS PREUVES - V3 PREMIUM 2 - DU DEBUT A LA FIN</h3>
-<input id="photoInput" type="file" accept="image/*" multiple>
-<div class="preview" id="previewZone"></div>
-</div>
+<div class="card"><h3>PHOTOS V3 LONGUE</h3><input id="photoInput" type="file" accept="image/*" multiple><div class="preview" id="previewZone"></div></div>
 
-<!-- V5 SIGNATURE + DRAPEAUX -->
-<div class="card">
-<h3>6 - SIGNATURE + DRAPEAUX + EAU - V5 - Mr N'ké 🇨🇮</h3>
-<canvas id="sigPad" class="sig"></canvas>
-<div class="row"><button class="btn bd" onclick="clearSig()">Effacer</button><button class="btn bd" onclick="saveSig()">Sauver Signature 🇨🇮</button></div>
-</div>
+<div class="card"><h3>SIGNATURE V5</h3><canvas id="sigPad" class="sig"></canvas><div class="row"><button class="btn bd" onclick="clearSig()">Effacer</button><button class="btn bd" onclick="saveSig()">Sauver</button></div></div>
 
-<!-- V7 FINALE -->
-<div class="card">
-<button class="btn by" onclick="genererPDFUltime()" style="padding:18px;font-size:15px">📄 GENERER PDF FINAL - TOUTES VERSIONS DU DEBUT A LA FIN - Mr N'ké - 🇨🇮💧📸🎤💰✍️📲</button>
-<button class="btn bd" onclick="effacerTout()">🗑️ NOUVEAU RAPPORT - Mr N'ké</button>
-<p style="text-align:center;font-size:9px;color:#334155;margin-top:8px">NAVJ - Mr N'ké - TOUTES VERSIONS DU DEBUT A LA FIN - V1 à V7 - Finale Propre 2026</p>
-</div>
+<div class="card"><button class="btn by" onclick="genererPDFUltime()" style="padding:16px">📄 GENERER PDF FINAL TOUTES OPTIONS - Mr N'ké - DU DEBUT A LA FIN</button><button class="btn bd" onclick="effacerTout()">🗑️ NOUVEAU RAPPORT</button></div>
 
 <script>
-document.getElementById('dateRapport').valueAsDate=new Date();
-document.getElementById('heureRapport').value=new Date().toTimeString().slice(0,5);
-document.getElementById('datePaiement').valueAsDate=new Date();
-let sn=localStorage.getItem('navj_numeroChef'); if(sn) document.getElementById('numeroChef').value=sn;
-let savAv=localStorage.getItem('navj_avatar'); if(savAv){ document.getElementById('avatarImg').src=savAv; window.avatarBase64=savAv; }
-if(navigator.geolocation){ navigator.geolocation.getCurrentPosition(p=>{ document.getElementById('gps').textContent='📍 GPS Mr N\'ké: '+p.coords.latitude.toFixed(5)+','+p.coords.longitude.toFixed(5)+' 🇨🇮 - V5 Eau Demo'; window.gpsPos=p.coords; }); }
-document.getElementById('avatarInput').addEventListener('change',e=>{ let r=new FileReader(); r.onload=ev=>{
+document.getElementById('dateRapport').valueAsDate=new Date();document.getElementById('heureRapport').value=new Date().toTimeString().slice(0,5);document.getElementById('datePaiement').valueAsDate=new Date();
+let sn=localStorage.getItem('navj_numeroChef');if(sn)document.getElementById('numeroChef').value=sn;
+let sw=localStorage.getItem('navj_waveBusiness');if(sw)document.getElementById('waveBusinessNumero').value=sw;
+let savAv=localStorage.getItem('navj_avatar');if(savAv){document.getElementById('avatarImg').src=savAv;window.avatarBase64=savAv;}
+if(navigator.geolocation){navigator.geolocation.getCurrentPosition(p=>{document.getElementById('gps').textContent='📍 GPS Mr N\'ké: '+p.coords.latitude.toFixed(5)+','+p.coords.longitude.toFixed(5)+' 🇨🇮';window.gpsPos=p.coords;});}
+document.getElementById('avatarInput').addEventListener('change',e=>{let r=new FileReader();r.onload=ev=>{document.getElementById('avatarImg').src=ev.target.result;localStorage.setItem('navj_avatar',ev.target.result);window.avatarBase64=ev.target.result;};r.readAsDataURL(e.target.files[0]);});
+window.avatarBase64=savAv||null;
+function calcR(){let t=parseFloat(document.getElementById('montantTotal').value)||0;let a=parseFloat(document.getElementById('avance').value)||0;document.getElementById('reste').value=t-a;document.getElementById('montantWave').value=t-a>0?t-a:t;}
+document.getElementById('montantTotal').addEventListener('input',calcR);document.getElementById('avance').addEventListener('input',calcR);calcR();
+window.dernierLienWave='';
+function genererLienWaveBusiness(){let n=document.getElementById('waveBusinessNumero').value.trim();let m=document.getElementById('montantWave').value||document.getElementById('montantTotal').value;if(!n){alert('Mets ton Wave Business');return;}localStorage.setItem('navj_waveBusiness',n);let c=n.replace(/[^0-9]/g,'');let l='https://pay.wave.com/m/'+c+'/?amount='+m+'&currency=XOF&note=NAVJ_'+document.getElementById('agent').value;window.dernierLienWave=l;let d=document.getElementById('waveLinkResult');d.style.display='block';d.innerHTML='💙 LIEN WAVE BUSINESS AUTO<br>Montant: <b>'+m+' FCFA</b><br>Vers: '+n+'<br><br><a href="'+l+'" target="_blank" style="

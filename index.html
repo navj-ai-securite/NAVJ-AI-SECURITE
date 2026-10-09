@@ -1,133 +1,248 @@
 <!DOCTYPE html>
-<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>NAVJ AI SECURITE</title>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NAVJ - Mr N'ké - PREMIUM PROPRE</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-body{margin:0;font-family:system-ui;background:#050e1e;color:white;overflow-x:hidden}
-.water{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:radial-gradient(circle at 50% 0%,#0a2a5a,#020a17)}
-.wave{position:absolute;width:200%;height:300px;background:linear-gradient(90deg,transparent,rgba(0,150,255,0.25),transparent);animation:flow 6s infinite linear;top:10%;border-radius:50%}
-.wave2{top:30%;animation-duration:9s;opacity:0.5}.wave3{top:60%;animation-duration:13s;opacity:0.25}
-@keyframes flow{0%{transform:translateX(-50%)}100%{transform:translateX(0%)}}
-.card{background:rgba(255,255,255,0.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.15);border-radius:22px;padding:18px;margin:14px}
-.avatar{width:120px;height:120px;border-radius:50%;border:4px solid #ffcc00;box-shadow:0 0 25px #0066ff;object-fit:cover}
-.btn-gold{width:100%;padding:16px;border:none;border-radius:14px;background:linear-gradient(90deg,#ffcc00,#ff9500);color:#000;font-weight:900;font-size:17px}
-.btn-blue{width:100%;padding:14px;border:none;border-radius:12px;background:#0066ff;color:white;font-weight:bold;margin-top:10px}
-input,select,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.2);background:rgba(0,0,0,0.5);color:white;margin-top:10px;box-sizing:border-box}
-.badge{background:gold;color:black;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:bold}
-</style></head><body>
-<div class="water"><div class="wave"></div><div class="wave wave2"></div><div class="wave wave3"></div></div>
-<div class="card" style="text-align:center">
-<div style="font-size:20px">NAVJ AI SECURITE</div>
-<img src="agent.jpg" class="avatar" style="margin-top:12px">
-<div style="margin-top:8px;font-weight:bold">PAPA DERA ELLE - Fondateur</div>
-<div style="font-size:11px;opacity:0.7">@papaderaelle</div>
-<h2>PREMIUM 1000F - A Vie</h2>
-<p style="opacity:0.8;font-size:13px">PDF Preuve Illimite + ID Unique<br>Auto apres paiement</p>
-<button onclick="payerAuto()" class="btn-gold">PAYER 1000F - ACCES AUTOMATIQUE</button>
+*{box-sizing:border-box}
+body{margin:0;background:#02040a;color:#fff;font-family:Arial,system-ui;padding:8px;overflow-x:hidden}
+.water{position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 50% 0%,#ffcc0020,transparent 60%);pointer-events:none}
+.top{position:relative;background:linear-gradient(135deg,#0a0f1e,#000);border:2px solid #ffcc00;border-radius:18px;padding:18px;text-align:center}
+.flags{font-size:22px}
+.demo{position:absolute;top:8px;right:-28px;background:#ffcc00;color:#000;font-size:8px;font-weight:900;padding:3px 30px;transform:rotate(35deg)}
+.top h1{color:#ffcc00;margin:6px 0;font-size:24px;letter-spacing:1px}
+.card{background:#0e1322;border:1px solid #1e2a4a;border-radius:14px;padding:14px;margin-top:10px}
+.card h3{color:#ffcc00;margin:0 0 10px;font-size:11px;text-transform:uppercase;border-left:3px solid #ffcc00;padding-left:8px}
+input,textarea,select{width:100%;padding:12px;background:#080b15;border:1px solid #253055;border-radius:10px;color:#fff;margin:5px 0;font-size:14px}
+textarea{min-height:110px;resize:vertical}
+.btn{width:100%;padding:13px;border-radius:11px;border:none;font-weight:900;font-size:13px;margin-top:8px;cursor:pointer}
+.by{background:#ffcc00;color:#000}
+.bg{background:#00c853;color:#fff}
+.br{background:#ef4444;color:#fff;display:none}
+.bd{background:#1a2340;color:#cbd5e1;border:1px solid #2a3a66}
+.row{display:flex;gap:8px}.row>*{flex:1}
+#vocalStatus{text-align:center;color:#ffcc00;font-size:12px;margin-top:6px;min-height:16px}
+#audioPlayback{width:100%;display:none;margin-top:8px}
+.preview{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.preview img{width:72px;height:72px;object-fit:cover;border-radius:8px;border:2px solid #ffcc00}
+.sig{width:100%;height:115px;background:#080b15;border:1px dashed #ffcc00;border-radius:10px;touch-action:none}
+small{color:#475569;font-size:11px}
+</style>
+</head>
+<body>
+<div class="water"></div>
+
+<div class="top">
+<div class="demo">PREMIUM • Mr N'ké</div>
+<div class="flags">🇨🇮 🇨🇮 NAVJ SECURITE 🇨🇮 🇨🇮</div>
+<h1>Mr N'ké - PREMIUM ULTIME</h1>
+<div style="font-size:11px;color:#ffcc00">💧 Eau Demo + Drapeaux + Vocal + Photo + PDF + WhatsApp</div>
+<div id="gps" style="font-size:10px;color:#64748b;margin-top:4px">📍 GPS Mr N'ké en cours...</div>
 </div>
+
+<!-- 1 WHATSAPP -->
 <div class="card">
-<div>Mode: <b id="modeText">FREE</b> <span id="badge" class="badge" style="display:none">PREMIUM ACTIF</span></div>
-<input id="agent" placeholder="Ton nom d'agent">
-<select id="poste"><option>Choisis ton poste</option><option>Agent SGCI Total Treichville</option><option>Agent Rondier</option><option>Chef de poste</option><option>Superviseur</option></select>
-<select id="ronde"><option>Ronde RAS</option><option>Ronde avec incident</option><option>Prise de service</option><option>Fin de service</option></select>
-<textarea id="faits" rows="4" placeholder="Decris les faits..."></textarea>
-<!-- BLOC VOCAL PREMIUM 2 - À AJOUTER SANS SUPPRIMER L'ANCIEN -->
-<div id="vocalPremium2" style="border:2px dashed #00C853; padding:12px; border-radius:10px; margin-bottom:10px; background:#f0fff4;">
-  <label style="font-weight:bold; color:#00C853;">🎤 PREMIUM 2 - Rapport Vocal (Audio + Texte)</label>
-  <div style="display:flex; gap:8px; margin-top:8px;">
-    <button id="btnStartVocal" type="button" style="background:#00C853; color:white; border:none; padding:10px 15px; border-radius:8px; font-weight:bold;">🎙️ Parler</button>
-    <button id="btnStopVocal" type="button" style="background:#ff3d00; color:white; border:none; padding:10px 15px; border-radius:8px; display:none;">⏹️ Stop</button>
-    <span id="vocalStatus" style="font-size:13px; color:#333; align-self:center;">Clique sur Parler...</span>
-  </div>
-  <audio id="audioPlayback" controls style="width:100%; margin-top:8px; display:none;"></audio>
-  <small style="color:#666;">Ton audio sera gardé comme preuve dans le PDF.</small>
+<h3>1 - WHATSAPP CHEF - PREMIUM 3</h3>
+<input id="numeroChef" type="text" placeholder="+225 07 XX XX XX XX">
+<button class="btn bg" onclick="envoyerWhatsapp()">📲 ENVOYER AU CHEF VIA WHATSAPP - Mr N'ké</button>
+<small>Numéro sauvegardé automatiquement</small>
 </div>
-  <button onclick="generer()" class="btn-blue">GENERER RAPPORT</button>
-<!-- BLOC WHATSAPP CHEF - PREMIUM 3 -->
-<div id="blocWhatsappChef" style="border:2px solid #00C853; padding:12px; border-radius:12px; margin-top:15px; background:#E8F5E9;">
-  <label style="font-weight:bold; color:#0a7d3e; font-size:14px;">📲 Numéro WhatsApp du Chef (avec +225...)</label>
-  <input id="numeroChef" type="tel" placeholder="Ex: +2250700000000" style="width:100%; padding:12px; margin-top:8px; border-radius:8px; border:1px solid #ccc; font-size:16px;">
-  <button onclick="envoyerWhatsapp()" style="width:100%; padding:14px; background:#00C853; color:white; border:none; border-radius:10px; margin-top:10px; font-weight:bold; font-size:16px; cursor:pointer;">📲 ENVOYER AU CHEF SUR WHATSAPP</button>
-  <p style="font-size:11px; color:#555; margin-top:6px; text-align:center;">Le numéro sera sauvegardé automatiquement</p>
-</div>
-</div>
+
+<!-- 2 INFOS -->
 <div class="card">
-<div id="rapport" style="background:white;color:black;padding:15px;border-radius:10px;min-height:90px;white-space:pre-wrap">Rapport ici...</div>
-<button onclick="copier()" style="width:100%;padding:12px;background:#00c851;color:white;border:none;border-radius:10px;margin-top:10px;font-weight:bold">Copier</button>
-<button onclick="checkPremium()" style="width:100%;padding:12px;background:gold;color:black;border:none;border-radius:10px;margin-top:10px;font-weight:bold">Telecharger Preuve Premium</button>
+<h3>2 - INFOS AGENT</h3>
+<div class="row">
+<input id="agent" type="text" placeholder="Nom Agent" value="Mr N'ké">
+<input id="poste" type="text" placeholder="Poste / Site">
 </div>
+<div class="row">
+<input id="dateRapport" type="date">
+<input id="heureRapport" type="time">
+</div>
+<select id="typeIncident">
+<option>Ronde Normale - RAS - Mr N'ké</option>
+<option>Incident Mineur</option>
+<option>Incident Majeur</option>
+<option>Intrusion</option>
+<option>Vol / Disparition</option>
+<option>Panne Materiel</option>
+<option>Autre</option>
+</select>
+<input id="localisation" type="text" placeholder="Localisation précise">
+</div>
+
+<!-- 3 VOCAL -->
+<div class="card">
+<h3>3 - FAITS - VOCAL PREMIUM 1</h3>
+<textarea id="faits" placeholder="Mr N'ké - Appuie sur micro et parle... ça écrit tout seul"></textarea>
+<button id="btnStartVocal" class="btn by">🎤 ENREGISTRER VOCAL - Mr N'ké</button>
+<button id="btnStopVocal" class="btn br">⏹️ ARRETER ET SAUVEGARDER VOCAL</button>
+<div id="vocalStatus">💧 Prêt - Mr N'ké</div>
+<audio id="audioPlayback" controls></audio>
+</div>
+
+<!-- 4 PHOTOS -->
+<div class="card">
+<h3>4 - PHOTOS PREUVES - PREMIUM 2</h3>
+<input id="photoInput" type="file" accept="image/*" multiple capture="environment">
+<div class="preview" id="previewZone"></div>
+<small>3 photos max - intégrées dans PDF Mr N'ké</small>
+</div>
+
+<!-- 5 SIGNATURE -->
+<div class="card">
+<h3>5 - SIGNATURE - Mr N'ké</h3>
+<canvas id="sigPad" class="sig"></canvas>
+<div class="row">
+<button class="btn bd" onclick="clearSig()">Effacer Signature</button>
+<button class="btn bd" onclick="saveSig()">Sauver Signature 🇨🇮</button>
+</div>
+</div>
+
+<!-- 6 FINAL -->
+<div class="card">
+<button class="btn by" onclick="genererPDFUltime()" style="padding:16px;font-size:15px">📄 GENERER PDF PREMIUM COMPLET - Mr N'ké - DRAPEAUX + EAU + TOUT</button>
+<button class="btn bd" onclick="effacerTout()">🗑️ NOUVEAU RAPPORT</button>
+<p style="text-align:center;font-size:9px;color:#334155;margin-top:10px">NAVJ Sécurité - Mr N'ké - PREMIUM PROPRE - Version Finale 2026 - Abidjan CI</p>
+</div>
+
 <script>
-function payerAuto(){window.open("https://pay.wave.com/m/M_ci_BsVtsF_0PH8q/c/ci/?amount=1000","_blank");setTimeout(()=>{localStorage.setItem('navj_premium','unlocked');document.getElementById('modeText').innerText='PREMIUM';document.getElementById('badge').style.display='inline';alert("Paiement en cours... PREMIUM debloque auto!");location.href="https://navj-ai-securite.github.io/NAVJ-IA-SECURITE/?premium=unlocked";},5000);}
-if(localStorage.getItem('navj_premium')=='unlocked' || location.href.includes('premium=unlocked')){document.getElementById('modeText').innerText='PREMIUM';document.getElementById('badge').style.display='inline';}
-function generer(){let a=document.getElementById('agent').value||"[Agent]";let p=document.getElementById('poste').value;let r=document.getElementById('ronde').value;let f=document.getElementById('faits').value;document.getElementById('rapport').innerText="RAPPORT NAVJ\nAgent: "+a+"\nPoste: "+p+"\nType: "+r+"\nFaits: "+f+"\nHeure: "+new Date().toLocaleString();}
-function copier(){navigator.clipboard.writeText(document.getElementById('rapport').innerText);alert("Copie!");}
-function checkPremium(){if(localStorage.getItem('navj_premium')=='unlocked'){alert("PDF Premium pret");}else{payerAuto()}}
-// ==== MODULE VOCAL PREMIUM 2 - SÉCURISÉ, N'ÉCRASE RIEN ====
-let mediaRecorder, audioChunks = [], audioBlob = null;
-let recognition;
-
-const btnStart = document.getElementById('btnStartVocal');
-const btnStop = document.getElementById('btnStopVocal');
-const status = document.getElementById('vocalStatus');
-const audioPlayback = document.getElementById('audioPlayback');
-
-// Cible ton champ "Faits" - vérifie son ID, chez toi c'est souvent #faits ou #description
-const champFaits = document.getElementById('faits') || document.getElementById('description') || document.querySelector('textarea');
-
-if(btnStart){
-  btnStart.onclick = async () => {
-    // 1. Lancer l'enregistrement audio
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    mediaRecorder = new MediaRecorder(stream);
-    audioChunks = [];
-    mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-    mediaRecorder.onstop = () => {
-      audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-      audioPlayback.src = URL.createObjectURL(audioBlob);
-      audioPlayback.style.display = 'block';
-      status.textContent = "✅ Audio enregistré + Texte transcrit!";
-    };
-    mediaRecorder.start();
-
-    // 2. Lancer la transcription vocale (français)
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if(SpeechRecognition){
-      recognition = new SpeechRecognition();
-      recognition.lang = 'fr-FR';
-      recognition.interimResults = true;
-      recognition.continuous = true;
-      recognition.onresult = (event) => {
-        let transcript = '';
-        for(let i=event.resultIndex; i<event.results.length; i++){
-          transcript += event.results[i][0].transcript;
-        }
-        if(champFaits) champFaits.value = transcript; // Écrit tout seul!
-        status.textContent = "🎧 J'écoute... parle maintenant";
-      };
-      recognition.start();
-    }
-
-    btnStart.style.display = 'none';
-    btnStop.style.display = 'block';
-  };
-
-  btnStop.onclick = () => {
-    if(mediaRecorder) mediaRecorder.stop();
-    if(recognition) recognition.stop();
-    btnStart.style.display = 'block';
-    btnStop.style.display = 'none';
-  };
-  // ==== ENVOI WHATSAPP CHEF ====
-function envoyerWhatsapp(){
-  var num = document.getElementById('numeroChef').value;
-  if(num == ''){ alert('Mets numero chef'); return; }
-  localStorage.setItem('navj_numero_chef', num);
-  var agent = document.getElementById('agent').value;
-  var poste = document.getElementById('poste').value;
-  var faits = document.getElementById('faits').value;
-  var msg = 'RAPPORT NAVJ - AGENT: ' + agent + ' POSTE: ' + poste + ' FAITS: ' + faits;
-  var numClean = num.replace(/[^0-9]/g,'');
-  var url = 'https://wa.me/' + numClean + '?text=' + encodeURIComponent(msg);
-  window.open(url, '_blank');
+// DATE + GPS + SAUVEGARDE
+document.getElementById('dateRapport').valueAsDate = new Date();
+document.getElementById('heureRapport').value = new Date().toTimeString().slice(0,5);
+let savedNum = localStorage.getItem('navj_numeroChef');
+if(savedNum) document.getElementById('numeroChef').value = savedNum;
+if(navigator.geolocation){
+ navigator.geolocation.getCurrentPosition(p=>{
+  document.getElementById('gps').textContent = '📍 GPS Mr N\'ké: '+p.coords.latitude.toFixed(5)+', '+p.coords.longitude.toFixed(5)+' 🇨🇮';
+  window.gpsPos = p.coords;
+ });
 }
-var saved = localStorage.getItem('navj_numero_chef');
-if(saved){ document.getElementById('numeroChef').value = saved; }
-</script></body></html>
+
+// VOCAL PREMIUM 1 + AUDIO
+let mediaRecorder=null, audioBlobs=[], recognition=null;
+let btnStart = document.getElementById('btnStartVocal');
+let btnStop = document.getElementById('btnStopVocal');
+let statusEl = document.getElementById('vocalStatus');
+let audioEl = document.getElementById('audioPlayback');
+let faitsEl = document.getElementById('faits');
+
+btnStart.onclick = async () => {
+ try{
+  let stream = await navigator.mediaDevices.getUserMedia({audio:true});
+  mediaRecorder = new MediaRecorder(stream);
+  audioBlobs = [];
+  mediaRecorder.ondataavailable = e => audioBlobs.push(e.data);
+  mediaRecorder.onstop = () => {
+   let blob = new Blob(audioBlobs,{type:'audio/webm'});
+   audioEl.src = URL.createObjectURL(blob);
+   audioEl.style.display = 'block';
+   statusEl.textContent = '✅ Mr N\'ké - Vocal enregistré + Texte OK 🇨🇮';
+  };
+  mediaRecorder.start();
+  statusEl.textContent = '🔴 Mr N\'ké écoute... Parle clairement';
+  btnStart.style.display='none'; btnStop.style.display='block';
+  let Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(Rec){
+   recognition = new Rec();
+   recognition.lang='fr-FR'; recognition.interimResults=true; recognition.continuous=true;
+   recognition.onresult = ev => { let t=''; for(let i=ev.resultIndex;i<ev.results.length;i++) t+=ev.results[i][0].transcript+' '; faitsEl.value=t; };
+   recognition.start();
+  }
+ }catch(err){ alert('Micro bloqué: '+err.message); }
+};
+btnStop.onclick = () => {
+ if(mediaRecorder && mediaRecorder.state!=='inactive') mediaRecorder.stop();
+ if(recognition) try{recognition.stop()}catch(e){}
+ btnStart.style.display='block'; btnStop.style.display='none';
+};
+
+// PHOTOS PREMIUM 2
+let photosBase64 = [];
+document.getElementById('photoInput').addEventListener('change', e=>{
+ let zone = document.getElementById('previewZone');
+ zone.innerHTML=''; photosBase64=[];
+ [...e.target.files].slice(0,3).forEach(file=>{
+  let reader = new FileReader();
+  reader.onload = ev => {
+   photosBase64.push(ev.target.result);
+   let img = document.createElement('img');
+   img.src = ev.target.result;
+   zone.appendChild(img);
+  };
+  reader.readAsDataURL(file);
+ });
+});
+
+// SIGNATURE
+let canvas = document.getElementById('sigPad');
+let ctx = canvas.getContext('2d');
+function resizeSig(){ canvas.width=canvas.offsetWidth; canvas.height=115; ctx.strokeStyle='#ffcc00'; ctx.lineWidth=2; ctx.lineCap='round'; }
+resizeSig();
+let drawing=false;
+canvas.addEventListener('pointerdown', e=>{ drawing=true; ctx.beginPath(); ctx.moveTo(e.offsetX,e.offsetY); });
+canvas.addEventListener('pointermove', e=>{ if(!drawing) return; ctx.lineTo(e.offsetX,e.offsetY); ctx.stroke(); });
+canvas.addEventListener('pointerup', ()=>drawing=false);
+function clearSig(){ ctx.clearRect(0,0,canvas.width,canvas.height); }
+let sigData=null;
+function saveSig(){ sigData=canvas.toDataURL('image/png'); statusEl.textContent='✅ Signature Mr N\'ké OK 🇨🇮'; }
+
+// WHATSAPP PREMIUM 3 - PROPRE SANS %0A
+function envoyerWhatsapp(){
+ let num = document.getElementById('numeroChef').value.trim();
+ if(!num){ alert('Mets le numéro du chef Mr N\'ké'); return; }
+ localStorage.setItem('navj_numeroChef', num);
+ let gpsTxt = window.gpsPos? `GPS: ${window.gpsPos.latitude.toFixed(5)},${window.gpsPos.longitude.toFixed(5)}` : 'GPS non dispo';
+ let msg = `🇨🇮 *NAVJ - Mr N'ké - PREMIUM ULTIME* 🇨🇮\n\n👤 AGENT: ${document.getElementById('agent').value}\n📍 POSTE: ${document.getElementById('poste').value}\n📅 DATE: ${document.getElementById('dateRapport').value} ${document.getElementById('heureRapport').value}\n📋 TYPE: ${document.getElementById('typeIncident').value}\n🗺️ LIEU: ${document.getElementById('localisation').value}\n${gpsTxt}\n\n📝 FAITS:\n${document.getElementById('faits').value}\n\n💧 Eau Demo + 🇨🇮 Drapeaux + 📸 Photos + 🎤 Vocal + ✍️ Signature - Mr N'ké`;
+ window.open('https://wa.me/'+num.replace(/[^0-9]/g,'')+'?text='+encodeURIComponent(msg), '_blank');
+}
+
+// PDF ULTIME - TOUT INCLUS
+async function genererPDFUltime(){
+ let {jsPDF} = window.jspdf;
+ let doc = new jsPDF();
+ doc.setFillColor(2,4,10); doc.rect(0,0,210,26,'F');
+ doc.setTextColor(255,204,0); doc.setFontSize(14); doc.setFont('helvetica','bold');
+ doc.text("NAVJ - Mr N'ké - PREMIUM ULTIME - DRAPEAUX + EAU",10,16);
+ doc.setTextColor(0,0,0); doc.setFontSize(10); doc.setFont('helvetica','normal');
+ let y=34;
+ doc.text(`Agent: ${document.getElementById('agent').value} | Poste: ${document.getElementById('poste').value}`,10,y); y+=6;
+ doc.text(`Date: ${document.getElementById('dateRapport').value} ${document.getElementById('heureRapport').value} | Type: ${document.getElementById('typeIncident').value}`,10,y); y+=6;
+ doc.text(`Lieu: ${document.getElementById('localisation').value} | ${document.getElementById('gps').textContent}`,10,y); y+=10;
+ doc.setFont('helvetica','bold'); doc.text('Faits (Vocal Premium 1):',10,y); y+=6; doc.setFont('helvetica','normal');
+ let lignes = doc.splitTextToSize(document.getElementById('faits').value||'RAS - Mr N\'ké',180);
+ doc.text(lignes,10,y); y+=lignes.length*5+10;
+ if(photosBase64.length>0){
+  doc.setFont('helvetica','bold'); doc.text('Premium 2 - Photos Preuves:',10,y); y+=6;
+  for(let p of photosBase64){
+   if(y>160){ doc.addPage(); y=15; }
+   try{ doc.addImage(p,'JPEG',10,y,55,40); y+=44; }catch(e){}
+  }
+ }
+ if(sigData){
+  if(y>220){ doc.addPage(); y=15; }
+  doc.setFont('helvetica','bold'); doc.text('Signature Mr N\'ké:',10,y); y+=6;
+  try{ doc.addImage(sigData,'PNG',10,y,60,25); }catch(e){}
+ }
+ doc.setFontSize(7); doc.setTextColor(100,100,100);
+ doc.text(`Mr N'ké - Eau Demo + Drapeaux CI - Genere ${new Date().toLocaleString()} - NAVJ Securite`,10,290);
+ doc.save(`NAVJ_Mr_Nke_PREMIUM_PROPRE_${document.getElementById('agent').value}.pdf`);
+ statusEl.textContent='📄 PDF Mr N\'ké généré - Propre et complet!';
+}
+
+function effacerTout(){
+ if(confirm('Nouveau rapport Mr N\'ké?')){
+  document.getElementById('faits').value='';
+  document.getElementById('localisation').value='';
+  document.getElementById('previewZone').innerHTML='';
+  photosBase64=[];
+  clearSig();
+  document.getElementById('audioPlayback').style.display='none';
+  statusEl.textContent='Prêt Mr N\'ké - Propre';
+ }
+}
+</script>
+</body>
+</html>

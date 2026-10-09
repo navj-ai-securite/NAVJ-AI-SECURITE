@@ -41,6 +41,13 @@ input,select,textarea{width:100%;padding:12px;border-radius:10px;border:1px soli
   <small style="color:#666;">Ton audio sera gardé comme preuve dans le PDF.</small>
 </div>
   <button onclick="generer()" class="btn-blue">GENERER RAPPORT</button>
+<!-- BLOC WHATSAPP CHEF - PREMIUM 3 -->
+<div id="blocWhatsappChef" style="border:2px solid #00C853; padding:12px; border-radius:12px; margin-top:15px; background:#E8F5E9;">
+  <label style="font-weight:bold; color:#0a7d3e; font-size:14px;">📲 Numéro WhatsApp du Chef (avec +225...)</label>
+  <input id="numeroChef" type="tel" placeholder="Ex: +2250700000000" style="width:100%; padding:12px; margin-top:8px; border-radius:8px; border:1px solid #ccc; font-size:16px;">
+  <button onclick="envoyerWhatsapp()" style="width:100%; padding:14px; background:#00C853; color:white; border:none; border-radius:10px; margin-top:10px; font-weight:bold; font-size:16px; cursor:pointer;">📲 ENVOYER AU CHEF SUR WHATSAPP</button>
+  <p style="font-size:11px; color:#555; margin-top:6px; text-align:center;">Le numéro sera sauvegardé automatiquement</p>
+</div>
 </div>
 <div class="card">
 <div id="rapport" style="background:white;color:black;padding:15px;border-radius:10px;min-height:90px;white-space:pre-wrap">Rapport ici...</div>

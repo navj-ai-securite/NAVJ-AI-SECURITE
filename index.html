@@ -1,121 +1,245 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NAVJ AI SECURITE - PAPA DE RAELLE</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NAVJ AI Sécurité</title>
 <style>
-body{margin:0;font-family:system-ui;background:#050e1e;color:#fff;padding:12px}
-.eau{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:radial-gradient(circle at 50% 0%,#00C85333,transparent 60%)}
-.vague{position:absolute;width:200%;height:300px;top:0;left:-50%;background:linear-gradient(90deg,transparent,rgba(0,200,83,0.1),transparent);animation:wave 6s infinite}
-@keyframes wave{0%{transform:translateX(-50%)}100%{transform:translateX(0%)}}
-.avatar{width:120px;height:120px;border-radius:50%;border:4px solid #ffcc00;box-shadow:0 0 20px #ffcc0060}
-.bouton-or{width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(90deg,#ffcc00,#ff9900);color:#000;font-weight:900;font-size:15px}
-.bouton-bleu{width:100%;padding:14px;border:none;border-radius:14px;background:#00C853;color:#fff;font-weight:900}
-.saisir,.selection{width:100%;padding:12px;border-radius:10px;border:none;margin-top:8px;font-size:14px}
-.badge{background:#000;color:#ffcc00;border-radius:20px;padding:4px 10px;font-size:12px;font-weight:900}
-.card{background:rgba(255,255,255,0.08);border-radius:16px;padding:14px;margin-top:12px;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1)}
-#rapport{background:white;color:black;padding:15px;border-radius:10px;min-height:80px;white-space:pre-wrap;margin-top:10px}
+:root{--bg:#050e1e;--vert:#00C853;--or:#ffcc00;--mute:#9fb0c8}
+*{box-sizing:border-box}
+body{margin:auto;max-width:520px;font-family:system-ui,sans-serif;background:var(--bg);color:#fff;padding:12px;background-image:radial-gradient(circle at 50% 0,#00C85333,transparent 55%);background-attachment:fixed}
+.carte{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:14px;margin-top:12px}
+header.carte{text-align:center;border-color:var(--or);background:linear-gradient(160deg,rgba(255,204,0,.12),rgba(0,200,83,.06))}
+.logo{width:54px;height:54px;display:block;margin:0 auto 6px}
+h1{font-size:20px;margin:0}
+h2{font-size:16px;margin:0 0 8px;border-left:4px solid var(--vert);padding-left:8px}
+.mute{color:var(--mute);font-size:13px}
+input,select,textarea{width:100%;padding:12px;margin-top:8px;border-radius:10px;border:1px solid #2a3b57;background:#0c1a33;color:#fff;font-size:15px}
+button{width:100%;margin-top:8px;padding:13px;border:0;border-radius:12px;font:inherit;font-weight:800;cursor:pointer}
+button:active{transform:scale(.98)}
+.or{background:linear-gradient(90deg,#ffcc00,#ff9900);color:#000}
+.vert{background:var(--vert);color:#04210f}
+.gris{background:#1d2c47;color:#fff}
+.rouge{background:#ff3b1f;color:#fff}
+.ligne{display:flex;gap:8px}.ligne>*{flex:1}
+.badge{background:#000;color:var(--or);border-radius:20px;padding:3px 10px;font-size:12px;font-weight:800}
+.vocal{border:2px dashed var(--vert);border-radius:12px;padding:12px;margin-top:10px}
+#rapport{background:#fff;color:#111;padding:14px;border-radius:10px;white-space:pre-wrap;min-height:70px;margin-top:8px;font-size:14px}
+.hist{border-top:1px solid rgba(255,255,255,.1);padding:8px 0;font-size:13px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.hist button{width:auto;margin:0;padding:6px 10px;font-size:12px}
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#000;color:#fff;padding:10px 16px;border-radius:20px;font-size:14px;opacity:0;transition:opacity .25s;pointer-events:none;border:1px solid var(--or);text-align:center;max-width:90%}
+#toast.on{opacity:1}
 </style>
 </head>
 <body>
-<div class="eau"><div class="vague"></div><div class="vague" style="animation-delay:1s"></div></div>
 
-<div class="card" style="text-align:center">
-<div style="font-size:20px">NAVJ AI SECURITE</div>
-<img src="https://ui-avatars.com/api/?name=PAPA+DERA+ELLE&background=ffcc00&color=000&size=200" class="avatar" style="margin-top:12px">
-<div style="margin-top:8px">PAPA DERA ELLE - Fondateur</div>
-<div style="font-size:11px;opacity:0.7">@papaderaelle</div>
-<h2>PREMIUM 1000F - A Vie</h2>
-<p style="opacity:0.8;font-size:13px">PDF Preuve Illimite + ID Unique<br>Auto apres paiement</p>
-<button onclick="payerAuto()" class="bouton-or">PAYER 1000F - ACCES AUTOMATIQUE</button>
-</div>
+<header class="carte">
+  <svg class="logo" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3 6 10v13c0 11 7.5 19 18 22 10.5-3 18-11 18-22V10z" fill="#ffcc00"/><path d="M15 24l6 6 12-13" fill="none" stroke="#050e1e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <h1>NAVJ AI Sécurité</h1>
+  <p class="mute" style="margin:4px 0 0">Rapports de ronde prêts en 1 minute, avec preuve horodatée.</p>
+  <p style="margin:10px 0 0">Mode : <b id="mode">Gratuit</b> <span id="badge" class="badge" hidden>Premium actif</span></p>
+  <p class="mute" id="quota" style="margin:4px 0 0"></p>
+</header>
 
-<div class="card">
-<div>Mode: <b id="modeText">GRATUIT</b> <span id="badge" class="badge" style="display:none">PREMIUM ACTIF</span></div>
-<input id="agent" placeholder="Ton nom d'agent" class="saisir" value="N'ké Junior">
-<select id="poste" class="selection"><option>Choisis ton poste</option><option selected>Agent SGCI Total Treichville</option><option>Agent Shell</option><option>Agent Résidence</option></select>
-<select id="ronde" class="selection"><option>Ronde RAS</option><option>Ronde avec incident</option><option>Ronde de nuit</option></select>
-<textarea id="faits" rows="4" placeholder="Decris les faits..." class="saisir">Ronde RAS</textarea>
+<section class="carte" id="boxPremium">
+  <h2>Premium à vie : 1000 F</h2>
+  <p class="mute">Rapports illimités et PDF preuve.</p>
+  <button class="or" id="btnPayer">1. Payer 1000 F par Wave</button>
+  <p class="mute">2. Après paiement, envoie la capture à <b id="contact"></b>. Tu reçois ton code.</p>
+  <input id="code" placeholder="3. Colle ici ton code Premium" autocomplete="off">
+  <button class="vert" id="btnActiver">Activer Premium</button>
+</section>
 
-<!-- BLOC VOCAL PREMIUM 2 - A AJOUTER SANS SUPPRIMER L'ANCIEN -->
-<div id="vocalPremium2" style="border:2px dashed #00C853;padding:12px;border-radius:10px;margin-top:10px;background:rgba(0,200,83,0.05)">
-<label style="font-weight:bold;color:#00C853;">🎤 PREMIUM 2 - Rapport Vocal (Audio + Texte)</label>
-<div style="display:flex;gap:8px;margin-top:8px;">
-<button id="btnStartVocal" type="button" style="background:#00C853;color:white;border:none;padding:10px 15px;border-radius:8px;font-weight:bold;flex:1">🎤 Démarrer le chant</button>
-<button id="btnStopVocal" type="button" style="background:#ff3300;color:white;border:none;padding:10px 15px;border-radius:8px;display:none;flex:1">⏹️ Arrêter la voix</button>
-<span id="vocalStatus" style="font-size:13px;color:#333;align-self:center">Clique sur Parler...</span>
-</div>
-<audio id="audioPlayback" controls style="width:100%;margin-top:8px;display:none"></audio>
-<small style="color:#666;">Ton audio sera gardé comme preuve dans le PDF.</small>
-</div>
+<section class="carte">
+  <h2>Nouveau rapport</h2>
+  <input id="agent" placeholder="Nom de l'agent" value="N'ké Junior">
+  <select id="poste">
+    <option value="">Choisis ton poste</option>
+    <option selected>Agent SGCI Total Treichville</option>
+    <option>Agent Shell</option>
+    <option>Agent Résidence</option>
+  </select>
+  <select id="ronde">
+    <option>Ronde RAS</option>
+    <option>Ronde avec incident</option>
+    <option>Ronde de nuit</option>
+  </select>
+  <textarea id="faits" rows="4" placeholder="Décris les faits...">Ronde RAS</textarea>
 
-<button onclick="generer()" class="bouton-bleu" style="margin-top:12px">GENERER RAPPORT</button>
-</div>
+  <div class="vocal">
+    <b style="color:var(--vert)">🎤 Rapport vocal (audio + texte)</b>
+    <div class="ligne">
+      <button class="vert" id="btnStart" type="button">🎤 Parler</button>
+      <button class="rouge" id="btnStop" type="button" hidden>⏹ Arrêter</button>
+    </div>
+    <p class="mute" id="vstatus" aria-live="polite">Appuie sur Parler et décris les faits.</p>
+    <audio id="lecteur" controls style="width:100%" hidden></audio>
+    <button class="gris" id="btnAudioDl" type="button" hidden>⬇ Télécharger l'audio</button>
+  </div>
 
-<div class="card">
-<div id="rapport">Rapport vide...</div>
-<button onclick="copier()" style="width:100%;padding:12px;background:#00C853;color:white;border:none;border-radius:10px;margin-top:12px">📋 Photocopieuse</button>
-<button onclick="checkPremium()" style="width:100%;padding:12px;background:orange;color:black;border:none;border-radius:10px;margin-top:8px;font-weight:900">🔓 Vérifier Premium</button>
-</div>
+  <label class="mute" style="display:block;margin-top:10px"><input type="checkbox" id="gps" style="width:auto;margin:0 6px 0 0"> Ajouter ma position GPS</label>
+  <button class="vert" id="btnGen">Générer le rapport</button>
+</section>
+
+<section class="carte">
+  <h2>Rapport</h2>
+  <div id="rapport">Aucun rapport pour l'instant.</div>
+  <div class="ligne">
+    <button class="gris" id="btnCopier">📋 Copier</button>
+    <button class="gris" id="btnWA">WhatsApp</button>
+  </div>
+  <button class="or" id="btnPDF">📄 PDF preuve (Premium)</button>
+</section>
+
+<section class="carte">
+  <h2>Historique</h2>
+  <div id="histo" class="mute">Aucun rapport enregistré.</div>
+</section>
+
+<div id="toast" role="status"></div>
 
 <script>
-function payerAuto(){window.open("https://pay.wave.com/m/M_ci_BVtsF_0M8q/c/ci/?amount=1000", "_blank");setTimeout(()=>{if(localStorage.getItem('navj_premium')=='unlocked'){location.href=document.URL.split('?')[0]+'?premium=unlocked';}else{alert("Après paiement Wave, ton Premium s'active auto");localStorage.setItem('navj_premium','unlocked');location.reload();}},2000);}
-if(localStorage.getItem('navj_premium')=='unlocked' || location.href.includes('premium=unlocked')){document.getElementById('modeText').innerText='PREMIUM';document.getElementById('modeText').style.color='#00C853';document.getElementById('badge').style.display='inline';document.getElementById('badge').innerText='PREMIUM ACTIF';}
-
-function generer(){let a=document.getElementById('agent').value;let p=document.getElementById('poste').value;let r=document.getElementById('ronde').value;let f=document.getElementById('faits').value;let id='NAVJ-'+Date.now().toString().slice(-6);let txt=`🇨🇮 NAVJ AI SECURITE - PREUVE 🇨🇮\n\nID Unique: ${id}\nAgent: ${a}\nPoste: ${p}\nRonde: ${r}\nDate: ${new Date().toLocaleString()}\n\nFAITS:\n${f}\n\nFondé par PAPA DERA ELLE\n@papaderaelle\nPREMIUM 1000F A Vie`;document.getElementById('rapport').innerText=txt;}
-function copier(){navigator.clipboard.writeText(document.getElementById('rapport').innerText);alert('Copié!');}
-function checkPremium(){if(localStorage.getItem('navj_premium')=='unlocked'){alert('PDF Premium prêt - PREMIUM ACTIF');}else{alert('Pas encore Premium - Clique PAYER 1000F');payerAuto();}}
-
-// ==== MODULE VOCAL PREMIUM 2 - SÉCURISÉ, N'ÉCRASE RIEN ====
-let mediaRecorder, audioChunks = [], audioBlob = null;
-let recognition;
-const btnStart = document.getElementById('btnStartVocal');
-const btnStop = document.getElementById('btnStopVocal');
-const status = document.getElementById('vocalStatus');
-const audioPlayback = document.getElementById('audioPlayback');
-const champFaits = document.getElementById('faits');
-
-btnStart.onclick = async () => {
-const stream = await navigator.mediaDevices.getUserMedia({audio:true});
-mediaRecorder = new MediaRecorder(stream);
-audioChunks = [];
-mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-mediaRecorder.onstop = () => {
-audioBlob = new Blob(audioChunks, {type:'audio/webm'});
-audioPlayback.src = URL.createObjectURL(audioBlob);
-audioPlayback.style.display = 'block';
-status.textContent = "✅ Audio enregistré + Texte transcrit!";
+/* ===== TES RÉGLAGES (modifie seulement ici) ===== */
+const CONFIG={
+  fondateur:"PAPA DERA ELLE",
+  contact:"@papaderaelle",
+  waveUrl:"https://pay.wave.com/m/M_ci_BsVtsF_0PH8q/c/ci/?amount=1000",
+  limiteGratuit:3,
+  // Ajoute un code par client qui a payé. Exemple : "NAVJ-4821","NAVJ-7305"
+  codes:["NAVJ-0000"]
 };
-mediaRecorder.start();
+/* ================================================= */
+const $=id=>document.getElementById(id);
+const lire=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
+const ecrire=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2800)}
+$('contact').textContent=CONFIG.contact;
 
-// 2. Lancer la transcription vocale (français)
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-if(SpeechRecognition){
-recognition = new SpeechRecognition();
-recognition.lang = 'fr-FR';
-recognition.interimResults = true;
-recognition.continuous = true;
-recognition.onresult = (event) => {
-let transcript = '';
-for(let i=event.resultIndex; i<event.results.length; i++){
-transcript += event.results[i][0].transcript;
+/* ---- Premium ---- */
+const estPremium=()=>CONFIG.codes.includes(String(lire('navj_code','')).toUpperCase());
+function majMode(){
+  const p=estPremium();
+  $('mode').textContent=p?'Premium':'Gratuit';
+  $('badge').hidden=!p;
+  $('boxPremium').hidden=p;
+  const q=lire('navj_quota',{d:'',n:0}),auj=new Date().toDateString();
+  const reste=Math.max(0,CONFIG.limiteGratuit-(q.d===auj?q.n:0));
+  $('quota').textContent=p?'Rapports illimités':reste+' rapport(s) gratuit(s) aujourd\'hui';
 }
-if(champFaits) champFaits.value = transcript;
-status.textContent = "🎧 J'écoute... parle maintenant";
+$('btnPayer').onclick=()=>window.open(CONFIG.waveUrl,'_blank','noopener');
+$('btnActiver').onclick=()=>{
+  const c=$('code').value.trim().toUpperCase();
+  if(CONFIG.codes.includes(c)){ecrire('navj_code',c);majMode();toast('Premium activé !')}
+  else toast('Code invalide. Vérifie et réessaie.');
 };
-recognition.start();
+
+/* ---- Vocal ---- */
+let rec,flux,morceaux=[],blobAudio=null,reco,texteFinal='';
+$('btnStart').onclick=async()=>{
+  if(!navigator.mediaDevices||!window.MediaRecorder){toast("Micro non disponible ici. Écris les faits à la main.");return}
+  try{flux=await navigator.mediaDevices.getUserMedia({audio:true})}
+  catch(e){$('vstatus').textContent="Micro refusé. Il faut ouvrir l'application avec un lien https et autoriser le micro.";return}
+  morceaux=[];rec=new MediaRecorder(flux);
+  rec.ondataavailable=e=>morceaux.push(e.data);
+  rec.onstop=()=>{
+    blobAudio=new Blob(morceaux,{type:rec.mimeType||'audio/webm'});
+    $('lecteur').src=URL.createObjectURL(blobAudio);
+    $('lecteur').hidden=false;$('btnAudioDl').hidden=false;
+    flux.getTracks().forEach(t=>t.stop());
+    $('vstatus').textContent="✅ Audio enregistré. Vérifie le texte puis génère le rapport.";
+  };
+  rec.start();
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  texteFinal=($('faits').value&&$('faits').value!=='Ronde RAS')?$('faits').value+' ':'';
+  if(SR){
+    reco=new SR();reco.lang='fr-FR';reco.interimResults=true;reco.continuous=true;
+    reco.onresult=ev=>{
+      let prov='';
+      for(let i=ev.resultIndex;i<ev.results.length;i++){
+        const t=ev.results[i][0].transcript;
+        if(ev.results[i].isFinal)texteFinal+=t+' ';else prov+=t;
+      }
+      $('faits').value=texteFinal+prov;
+    };
+    reco.onerror=()=>{};
+    try{reco.start()}catch(e){}
+    $('vstatus').textContent="🎧 J'écoute... parle maintenant.";
+  }else $('vstatus').textContent="🎧 Audio en cours (pas de texte automatique sur ce navigateur).";
+  $('btnStart').hidden=true;$('btnStop').hidden=false;
+};
+$('btnStop').onclick=()=>{
+  if(rec&&rec.state!=='inactive')rec.stop();
+  if(reco)try{reco.stop()}catch(e){}
+  $('btnStart').hidden=false;$('btnStop').hidden=true;
+};
+$('btnAudioDl').onclick=()=>{
+  if(!blobAudio)return;
+  const a=document.createElement('a');a.href=URL.createObjectURL(blobAudio);
+  a.download=(dernier?dernier.id:'NAVJ-audio')+'.webm';a.click();
+};
+
+/* ---- Rapport ---- */
+let dernier=null;
+function position(){
+  return new Promise(res=>{
+    if(!$('gps').checked||!navigator.geolocation)return res('');
+    navigator.geolocation.getCurrentPosition(
+      p=>res(p.coords.latitude.toFixed(5)+', '+p.coords.longitude.toFixed(5)),
+      ()=>{toast('Position GPS indisponible');res('')},{timeout:8000});
+  });
 }
-
-btnStart.style.display = 'none';
-btnStop.style.display = 'block';
+$('btnGen').onclick=async()=>{
+  const poste=$('poste').value,faits=$('faits').value.trim(),agent=$('agent').value.trim();
+  if(!agent){toast("Entre le nom de l'agent");return}
+  if(!poste){toast('Choisis ton poste');return}
+  if(!faits){toast('Décris les faits');return}
+  const prem=estPremium(),auj=new Date().toDateString();
+  let q=lire('navj_quota',{d:auj,n:0});if(q.d!==auj)q={d:auj,n:0};
+  if(!prem&&q.n>=CONFIG.limiteGratuit){toast('Limite gratuite atteinte. Passe en Premium.');return}
+  const gps=await position();
+  const now=new Date();
+  const id='NAVJ-'+now.getTime().toString(36).toUpperCase().slice(-6);
+  const txt=`NAVJ AI SÉCURITÉ - RAPPORT DE RONDE\n\nID : ${id}\nAgent : ${agent}\nPoste : ${poste}\nType : ${$('ronde').value}\nDate : ${now.toLocaleString('fr-FR')}${gps?'\nPosition : '+gps:''}${blobAudio?'\nAudio : joint ('+id+'.webm)':''}\n\nFAITS :\n${faits}\n\nFondé par ${CONFIG.fondateur} ${CONFIG.contact}`;
+  dernier={id,txt,date:now.toISOString()};
+  $('rapport').textContent=txt;
+  if(!prem){q.n++;ecrire('navj_quota',q)}
+  const h=lire('navj_histo',[]);h.unshift(dernier);ecrire('navj_histo',h.slice(0,30));
+  majMode();dessinerHisto();toast('Rapport généré et enregistré');
 };
 
-btnStop.onclick = () => {
-if(mediaRecorder) mediaRecorder.stop();
-if(recognition) recognition.stop();
-btnStart.style.display = 'block';
-btnStop.style.display = 'none';
+/* ---- Actions ---- */
+$('btnCopier').onclick=async()=>{
+  if(!dernier){toast("Génère d'abord un rapport");return}
+  try{await navigator.clipboard.writeText(dernier.txt);toast('Copié !')}catch(e){toast('Copie impossible ici')}
 };
+$('btnWA').onclick=()=>{
+  if(!dernier){toast("Génère d'abord un rapport");return}
+  window.open('https://wa.me/?text='+encodeURIComponent(dernier.txt),'_blank','noopener');
+};
+$('btnPDF').onclick=()=>{
+  if(!estPremium()){toast('Le PDF preuve est réservé au Premium');return}
+  if(!dernier){toast("Génère d'abord un rapport");return}
+  const w=window.open('','_blank');
+  if(!w){toast('Autorise les fenêtres pop-up');return}
+  w.document.write(`<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>${dernier.id}</title><style>body{font-family:sans-serif;padding:32px;max-width:700px;margin:auto}h1{font-size:20px;border-bottom:3px solid #00C853;padding-bottom:8px}pre{white-space:pre-wrap;font:15px/1.5 sans-serif}footer{margin-top:30px;font-size:12px;color:#555}</style></head><body><h1>NAVJ AI SÉCURITÉ</h1><pre>${esc(dernier.txt)}</pre><footer>Document généré le ${new Date().toLocaleString('fr-FR')} - ID ${dernier.id}</footer><script>onload=()=>print()<\/script></body></html>`);
+  w.document.close();
+};
+
+/* ---- Historique ---- */
+function dessinerHisto(){
+  const h=lire('navj_histo',[]),box=$('histo');
+  if(!h.length){box.textContent='Aucun rapport enregistré.';return}
+  box.innerHTML='';
+  h.forEach(r=>{
+    const l=document.createElement('div');l.className='hist';
+    l.innerHTML=`<span>${esc(r.id)}<br><span class="mute">${new Date(r.date).toLocaleString('fr-FR')}</span></span>`;
+    const b=document.createElement('button');b.className='gris';b.textContent='Ouvrir';
+    b.onclick=()=>{dernier=r;$('rapport').textContent=r.txt;scrollTo({top:0,behavior:'smooth'})};
+    l.appendChild(b);box.appendChild(l);
+  });
+}
+majMode();dessinerHisto();
 </script>
 </body>
 </html>

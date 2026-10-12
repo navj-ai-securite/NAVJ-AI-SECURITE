@@ -487,5 +487,23 @@ $('v-doc').onclick=e=>{
 };
 })();
 </script>
+<!-- BOUTON PARTAGE COLLEGUE -->
+<div style="text-align:center; padding:15px; margin:15px; background:#111; border:2px dashed #ffcc00; border-radius:12px;">
+  <p style="color:#fff; font-size:13px; margin:0 0 10px 0;">Tu connais un autre vigile ?</p>
+  <button onclick="partagerNAVJ()" style="width:100%;padding:14px;background:#ffcc00;color:#000;border:none;border-radius:10px;font-weight:900;cursor:pointer">
+    📤 PARTAGER À UN COLLÈGUE
+  </button>
+</div>
+
+<script>
+function partagerNAVJ(){
+  let msg = `🇨🇮 NAVJ AI SECURITE - Par PAPA DERA ELLE\n\nTu es vigile ? J'ai créé une appli pour toi : nom + poste + ronde + vocal 🎤 + ID unique\n\nGratuit. 1000F à vie pour PDF illimités\n\nTeste : https://tinyurl.com/navj-securite`;
+  if(navigator.share){
+    navigator.share({title:'NAVJ AI SECURITE', text:msg, url:'https://tinyurl.com/navj-securite'});
+  } else {
+    navigator.clipboard.writeText(msg).then(()=>alert('✅ Message copié ! Va coller sur WhatsApp'));
+  }
+}
+</script>
 </body>
 </html>

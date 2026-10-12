@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NAVJ - Partage WhatsApp</title>
+<style>
+body{background:#000;color:#fff;font-family:Arial, sans-serif;padding:15px;margin:0}
+.card{background:#111;border:2px solid #ffcc00;border-radius:16px;padding:20px;max-width:400px;margin:auto}
+h2{color:#ffcc00;text-align:center;margin:0 0 10px 0}
+.msg{background:#000;border-radius:12px;padding:15px;font-size:14px;line-height:1.7;white-space:pre-line;border:1px solid #333}
+.btn{width:100%;padding:16px;background:#ffcc00;color:#000;border:none;border-radius:12px;font-weight:900;font-size:16px;margin-top:15px;cursor:pointer}
+.btn:active{transform:scale(0.97)}
+.ok{color:#00ff88;text-align:center;display:none;margin-top:10px;font-weight:bold}
+.link{color:#ffcc00;text-align:center;display:block;margin-top:10px;word-break:break-all;font-size:12px}
+</style>
+</head>
+<body>
+<div class="card">
+<h2>🇨🇮 NAVJ AI SECURITE</h2>
+<div class="msg" id="texteAPartager">https://tinyurl.com/navj-securite
+🇨🇮 NAVJ AI SECURITE - Par PAPA DERA ELLE
+
+Tu es vigile / agent de sécurité ?
+
+J'ai créé une appli pour toi :
+
+✅ Tu mets ton nom + ton poste (SGCI Total, Shell, Résidence)
+✅ Tu choisis ta ronde (RAS, incident, nuit)
+✅ Tu peux même parler, ça écrit tout seul 🎤
+✅ Ça te génère un rapport avec ID unique + date exacte
+
+Gratuit pour tester.
+1000F à vie si tu veux les PDF illimités.
+
+👉 Teste ici : https://tinyurl.com/navj-securite</div>
+
+<button class="btn" onclick="copier()">📋 COPIER LE MESSAGE WHATSAPP</button>
+<div class="ok" id="ok">✅ Message copié ! Va coller sur WhatsApp</div>
+
+<a class="link" href="https://tinyurl.com/navj-securite" target="_blank">https://tinyurl.com/navj-securite</a>
+</div>
+
+<script>
+function copier(){
+  let txt = document.getElementById('texteAPartager').innerText;
+  navigator.clipboard.writeText(txt).then(()=>{
+    document.getElementById('ok').style.display='block';
+    setTimeout(()=>{document.getElementById('ok').style.display='none'},2500);
+  });
+}
+</script>
+</body>
+</html>

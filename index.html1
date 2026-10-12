@@ -497,13 +497,14 @@ $('v-doc').onclick=e=>{
 
 <script>
 function partagerNAVJ(){
-  let msg = `🇨🇮 NAVJ AI SECURITE - Par PAPA DERA ELLE\n\nTu es vigile ? J'ai créé une appli pour toi : nom + poste + ronde + vocal 🎤 + ID unique\n\nGratuit. 1000F à vie pour PDF illimités\n\nTeste : https://tinyurl.com/navj-securite`;
+  let msg = '🇨🇮 NAVJ AI SECURITE - Par PAPA DERA ELLE - Appli vigile : nom + poste + ronde + vocal + ID unique. Teste : https://tinyurl.com/navj-securite';
   if(navigator.share){
     navigator.share({title:'NAVJ AI SECURITE', text:msg, url:'https://tinyurl.com/navj-securite'});
   } else {
-    navigator.clipboard.writeText(msg).then(()=>alert('✅ Message copié ! Va coller sur WhatsApp'));
+    navigator.clipboard.writeText(msg).then(()=>{alert('Message copie !')});
   }
 }
+</script>
 </script>
 </body>
 </html>

@@ -487,24 +487,13 @@ $('v-doc').onclick=e=>{
 };
 })();
 </script>
-<!-- BOUTON PARTAGE COLLEGUE -->
 <div style="text-align:center; padding:15px; margin:15px; background:#111; border:2px dashed #ffcc00; border-radius:12px;">
   <p style="color:#fff; font-size:13px; margin:0 0 10px 0;">Tu connais un autre vigile ?</p>
-  <button onclick="partagerNAVJ()" style="width:100%;padding:14px;background:#ffcc00;color:#000;border:none;border-radius:10px;font-weight:900;cursor:pointer">
-    📤 PARTAGER À UN COLLÈGUE
-  </button>
+  <a href="https://wa.me/?text=🇨🇮%20NAVJ%20AI%20SECURITE%20-%20Par%20PAPA%20DERA%20ELLE%0ATeste%20gratuit%20:%20https%3A%2F%2Fnavj-ai-securite.github.io%2FNAVJ-AI-SECURITE%2F" 
+     style="display:block; width:100%; padding:14px; background:#ffcc00; color:#000; border-radius:10px; font-weight:900; text-decoration:none; text-align:center;">
+    📤 PARTAGER A UN COLLEGUE
+  </a>
 </div>
-
-<script>
-function partagerNAVJ(){
-  let msg = '🇨🇮 NAVJ AI SECURITE - Par PAPA DERA ELLE - Appli vigile : nom + poste + ronde + vocal + ID unique. Teste : https://tinyurl.com/navj-securite';
-  if(navigator.share){
-    navigator.share({title:'NAVJ AI SECURITE', text:msg, url:'https://tinyurl.com/navj-securite'});
-  } else {
-    navigator.clipboard.writeText(msg).then(()=>{alert('Message copie !')});
-  }
-}
-</script>
 </script>
 </body>
 </html>

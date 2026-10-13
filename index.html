@@ -487,6 +487,125 @@ $('v-doc').onclick=e=>{
 };
 })();
 </script>
-<a href="https://wa.me/?text=%F0%9F%87%A8%F0%9F%87%AE%20NAVJ%20AI%20SECURITE%20-%20Par%20PAPA%20DERA%20ELLE%0ATeste%20gratuit%20%3A%20https%3A%2F%2Fnavj-ai-securite.github.io%2FNAVJ-AI-SECURITE%2F" style="position:fixed;right:10px;bottom:64px;z-index:60;padding:10px 14px;background:#ffcc00;color:#000;border-radius:22px;font-weight:900;font-size:13px;text-decoration:none;box-shadow:0 2px 8px #0008">📤 Partager</a>
+<script>
+(function(){
+const HOUR=36e5,SENT_H=24,NOSENT_H=48,MAXDIST=100,MAXGAP=10*6e4;
+const open=()=>new Promise((ok,ko)=>{const r=indexedDB.open('navj_media',1);r.onupgradeneeded=()=>r.result.createObjectStore('m',{keyPath:'id'});r.onsuccess=()=>ok(r.result);r.onerror=()=>ko(r.error)});
+const tx=async(mode,fn)=>{const d=await open();return new Promise((ok,ko)=>{const t=d.transaction('m',mode),q=fn(t.objectStore('m'));t.oncomplete=()=>ok(q&&q.result);t.onerror=()=>ko(t.error)})};
+const put=m=>tx('readwrite',s=>s.put(m)),all=async()=>(await tx('readonly',s=>s.getAll()))||[],del=id=>tx('readwrite',s=>s.delete(id));
+const exp=m=>m.sentAt?m.sentAt+SENT_H*HOUR:m.t+NOSENT_H*HOUR;
+async function purge(){for(const m of await all())if(Date.now()>exp(m))await del(m.id)}
+purge().catch(()=>{});setInterval(()=>purge().catch(()=>{}),6e4);
+
+function capter(o){return new Promise(async res=>{
+  if(!sessionStorage.getItem('navj_nv')){
+    if(!confirm("Tu vas photographier ou filmer des personnes : informe-les. Ces médias servent uniquement de preuve et sont effacés de cet appareil après le délai prévu. Continuer ?"))return res(null);
+    sessionStorage.setItem('navj_nv','1');
+  }
+  let stream;
+  try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:o.facing||'user'},audio:false})}
+  catch(e){toast('Caméra refusée ou indisponible (lien https obligatoire)');return res(null)}
+  const ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;z-index:100;background:#000;display:flex;flex-direction:column;padding:8px;gap:6px';
+  ov.innerHTML='<div style="color:#fff;font-size:13px">'+esc(o.role)+' : '+esc(o.nom||'')+'</div><canvas style="width:100%;flex:1;min-height:0;object-fit:contain;background:#111"></canvas><div class="l"><button class="vt" id="mP">📷 Photo</button><button class="rg" id="mV">🎥 Vidéo (15 s max)</button></div><button class="gr" id="mX">Annuler</button>';
+  document.body.appendChild(ov);
+  const v=document.createElement('video');v.srcObject=stream;v.muted=true;v.playsInline=true;await v.play();
+  const c=ov.querySelector('canvas'),x=c.getContext('2d');c.width=v.videoWidth||640;c.height=v.videoHeight||480;
+  let pos=null,go=true,mr,ch=[],tm;
+  if(navigator.geolocation)navigator.geolocation.getCurrentPosition(p=>{pos={lat:p.coords.latitude,lon:p.coords.longitude}},()=>{},{timeout:8000,enableHighAccuracy:true});
+  const fs=Math.max(14,Math.round(c.width/30)),bh=3*(fs+4)+8;
+  const loop=()=>{if(!go)return;
+    x.drawImage(v,0,0,c.width,c.height);
+    x.fillStyle='rgba(0,0,0,.6)';x.fillRect(0,c.height-bh,c.width,bh);x.fillStyle='#fff';x.font='bold '+fs+'px sans-serif';
+    [(o.nom||'')+' · '+o.role,new Date().toLocaleString('fr-FR')+(pos?' · GPS '+pos.lat.toFixed(4)+','+pos.lon.toFixed(4):' · GPS indisponible'),(o.site||'')+' · '+o.ref]
+      .forEach((t,i)=>x.fillText(t,10,c.height-bh+fs+4+i*(fs+4)-2));
+    requestAnimationFrame(loop)};
+  loop();
+  const fin=m=>{go=false;stream.getTracks().forEach(t=>t.stop());ov.remove();res(m)};
+  const mk=(kind,b)=>({id:'M-'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),ref:o.ref,role:o.role,kind,blob:b,t:Date.now(),pos,nom:o.nom||'',sentAt:null});
+  ov.querySelector('#mX').onclick=()=>fin(null);
+  ov.querySelector('#mP').onclick=()=>c.toBlob(async b=>{const m=mk('photo',b);await put(m);fin(m)},'image/jpeg',.8);
+  ov.querySelector('#mV').onclick=function(){
+    if(mr&&mr.state==='recording'){mr.stop();return}
+    const mt=['video/mp4;codecs=avc1','video/webm;codecs=vp8','video/webm'].find(t=>MediaRecorder.isTypeSupported(t))||'';
+    mr=new MediaRecorder(c.captureStream(15),{mimeType:mt,videoBitsPerSecond:600000});ch=[];
+    mr.ondataavailable=e=>ch.push(e.data);
+    mr.onstop=async()=>{clearTimeout(tm);const m=mk('video',new Blob(ch,{type:mr.mimeType}));await put(m);fin(m)};
+    mr.start();this.textContent='⏹ Arrêter';tm=setTimeout(()=>{if(mr.state==='recording')mr.stop()},15000);
+  };
+})}
+
+function dist(a,b){const R=6371e3,r=Math.PI/180,p=(b.lat-a.lat)*r,q=(b.lon-a.lon)*r,h=Math.sin(p/2)**2+Math.cos(a.lat*r)*Math.cos(b.lat*r)*Math.sin(q/2)**2;return 2*R*Math.asin(Math.sqrt(h))}
+function verdict(ms){
+  const ph=ms.filter(m=>m.kind==='photo'),a=ph.find(m=>m.role==='Transmetteur'),b=ph.find(m=>m.role==='Destinataire');
+  if(!a||!b)return{manque:true,ok:false,r:['Il manque la photo '+(!a?'du transmetteur':'du destinataire')]};
+  const r=[];
+  if(Math.abs(a.t-b.t)>MAXGAP)r.push('Plus de 10 minutes entre les deux photos');
+  if(!a.pos||!b.pos)r.push('Position GPS manquante sur une photo');
+  else if(dist(a.pos,b.pos)>MAXDIST)r.push('Positions éloignées de plus de 100 m');
+  return{manque:false,ok:!r.length,r};
+}
+
+async function partager(ref){
+  const ms=(await all()).filter(m=>m.ref===ref);
+  if(!ms.length){toast('Aucun média pour ce document');return}
+  const files=ms.map((m,i)=>new File([m.blob],ref+'-'+(i+1)+(m.kind==='photo'?'.jpg':m.blob.type.includes('mp4')?'.mp4':'.webm'),{type:m.blob.type}));
+  if(!navigator.canShare||!navigator.canShare({files})){toast("Le partage de fichiers n'est pas disponible sur ce navigateur");return}
+  if(!confirm("Choisis le destinataire dans la fenêtre de partage et vérifie que c'est bien ton responsable. Continuer ?"))return;
+  try{
+    await navigator.share({files,title:'Preuve '+ref});
+    for(const m of ms){m.sentAt=Date.now();await put(m)}
+    toast("Partage fermé. Vérifie dans WhatsApp que le message est parti. Les médias seront effacés d'ici 24 h.");
+  }catch(e){toast("Partage annulé : rien n'est marqué comme envoyé")}
+}
+
+const CACHE={},vd=$('v-doc');
+const th=m=>{const u=URL.createObjectURL(m.blob),h=Math.max(0,Math.ceil((exp(m)-Date.now())/HOUR));
+  return `<div style="width:46%;font-size:11px">${m.kind==='photo'?`<img src="${u}" oncontextmenu="return false" style="width:100%;border-radius:8px">`:`<video src="${u}" controls controlsList="nodownload" oncontextmenu="return false" style="width:100%;border-radius:8px"></video>`}<br>${esc(m.role)} · effacé dans ${h} h max</div>`};
+async function inject(id){
+  const ms=(await all()).filter(m=>m.ref===id);CACHE[id]=ms;
+  let h='<div id="nvX" class="avt"><b>📎 Preuves photo et vidéo</b><br>Prises en direct avec la caméra (pas de galerie), liées à ce seul document. Effacées de cet appareil 24 h après le partage, ou 48 h si elles ne sont pas partagées.';
+  if(id.startsWith('PAS-')){
+    const v=verdict(ms);
+    h+=`<p><b>Présence des deux personnes :</b> ${v.ok?'✅ cohérente':'⚠ à vérifier'}${v.r.length?'<br>'+v.r.join('<br>'):''}</p><button class="vt" data-p="Transmetteur">📸 Photo du transmetteur</button><button class="vt" data-p="Destinataire">📸 Photo du destinataire</button><p class="mu">Les deux photos se prennent l'une après l'autre, sur ce téléphone, avec les deux personnes sur place. L'application signale des incohérences mais ne peut pas prouver l'identité : un responsable doit vérifier.</p>`;
+  }
+  h+='<button class="gr" data-p="Pièce">📷 Joindre une photo ou une vidéo</button><button class="gr" data-s="1">📤 Partager les médias</button><div class="ch">'+ms.map(th).join('')+'</div></div>';
+  vd.insertAdjacentHTML('beforeend',h);
+}
+new MutationObserver(()=>{if(vd.hidden||!vd.dataset.id||vd.querySelector('#nvX'))return;inject(vd.dataset.id)}).observe(vd,{childList:true});
+vd.addEventListener('click',e=>{
+  const a=e.target.dataset.a,id=vd.dataset.id;
+  if((a!=='val'&&a!=='res')||!id||!id.startsWith('PAS-'))return;
+  const v=verdict(CACHE[id]||[]);
+  if(v.manque){e.stopImmediatePropagation();toast('Impossible : il faut la photo du transmetteur ET celle du destinataire, prises sur place.');return}
+  if(!v.ok&&!confirm('Incohérences : '+v.r.join(' ; ')+'. Continuer quand même ?'))e.stopImmediatePropagation();
+},true);
+vd.addEventListener('click',async e=>{
+  const p=e.target.dataset.p,s=e.target.dataset.s,id=vd.dataset.id;
+  if(!p&&!s)return;
+  if(s)return partager(id);
+  const rec=lire('navj_svc',[]).find(r=>r.id===id)||{d:{}};
+  const nom=p==='Transmetteur'?rec.d.de:p==='Destinataire'?rec.d.a:$('agent').value.trim();
+  const m=await capter({ref:id,role:p,nom,site:rec.soc||societe(),facing:'user'});
+  if(m){const o=$('nvX');if(o)o.remove();inject(id);toast('Enregistré sur cet appareil')}
+});
+
+$('bGen').insertAdjacentHTML('beforebegin','<div class="avt"><b>📷 Photos et vidéos du rapport</b><br>Prises en direct (pas de galerie), jointes au prochain rapport généré.</div><button class="gr" id="rpB" type="button">📷 Joindre une photo ou une vidéo</button><p class="mu" id="rpN"></p>');
+$('bWA').insertAdjacentHTML('afterend','<button class="gr" id="rpS" type="button">📎 Partager les photos/vidéos du rapport</button>');
+async function cnt(){const n=(await all()).filter(m=>m.ref==='EN-COURS').length;$('rpN').textContent=n?n+' média(s) prêt(s) pour le prochain rapport':''}
+$('rpB').onclick=async()=>{const m=await capter({ref:'EN-COURS',role:'Pièce',nom:$('agent').value.trim(),site:societe(),facing:'environment'});if(m)cnt()};
+$('rpS').onclick=()=>{if(typeof dernier==='undefined'||!dernier){toast("Génère d'abord un rapport");return}partager(dernier.id)};
+let genAt=0;$('bGen').addEventListener('click',()=>{genAt=Date.now()});
+new MutationObserver(async()=>{
+  if(Date.now()-genAt>20000)return;
+  const m=/ID : (NAVJ-[A-Z0-9]+)/.exec($('rapport').textContent);if(!m)return;
+  const a=(await all()).filter(x=>x.ref==='EN-COURS');genAt=0;
+  for(const x of a){x.ref=m[1];await put(x)}
+  cnt();if(a.length)toast(a.length+' média(s) joint(s) au rapport '+m[1]);
+}).observe($('rapport'),{childList:true,characterData:true,subtree:true});
+cnt();
+})();
+</script>
+  <a href="https://wa.me/?text=%F0%9F%87%A8%F0%9F%87%AE%20NAVJ%20AI%20SECURITE%20-%20Par%20PAPA%20DERA%20ELLE%0ATeste%20gratuit%20%3A%20https%3A%2F%2Fnavj-ai-securite.github.io%2FNAVJ-AI-SECURITE%2F" style="position:fixed;right:10px;bottom:64px;z-index:60;padding:10px 14px;background:#ffcc00;color:#000;border-radius:22px;font-weight:900;font-size:13px;text-decoration:none;box-shadow:0 2px 8px #0008">📤 Partager</a>
 </body>
 </html>

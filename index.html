@@ -606,6 +606,62 @@ new MutationObserver(async()=>{
 cnt();
 })();
 </script>
+  <script>
+(function(){
+const H=s=>{let a=0xdeadbeef,b=0x41c6ce57;for(let i=0;i<s.length;i++){const c=s.charCodeAt(i);a=Math.imul(a^c,2654435761);b=Math.imul(b^c,1597334677)}a=Math.imul(a^(a>>>16),2246822507);a^=Math.imul(b^(b>>>13),3266489909);b=Math.imul(b^(b>>>16),2246822507);b^=Math.imul(a^(a>>>13),3266489909);return(4294967296*(2097151&b)+(a>>>0)).toString(36)};
+const HASHES=["hzo43w1lpr","1wex3uvsz74","iesio3lahf","1kk7s25xsxo","1scxhqyyr3c","9umhnuqp3m","f4997yeclv","1s6jwgp5wjs","76cikefb4p","1t6sqvteq0o","2bi36gq2rhb","ny2j5efu0f","2en0rwa6gzv","1ket4m7p8pd","9g5g0na95d","1782h13hqtl","1crjyvm2kfv","1vhxw27oj9r","1ypyx7qp9o8","1wr0wj4czv5","i7d5dnbs75","1pce2d8hqu0","1ngpg05kax9","yt9kufzn6o","3eabtd453t","14nt2fkq3y","eifjjjci89","1ugks2trveo","2cev9qs3aiv","1o5m6mkcvbj"];
+const norm=s=>String(s||'').trim().toUpperCase().replace(/\s+/g,'');
+const ok=c=>HASHES.includes(H(norm(c)));
+CONFIG.codes.length=0;
+const st=norm(lire('navj_code',''));
+if(st&&ok(st))CONFIG.codes.push(st);
+const prem=()=>estPrem();
+document.addEventListener('click',e=>{
+  if(e.target.id!=='bAct')return;
+  e.stopImmediatePropagation();
+  const c=norm($('code').value);
+  if(ok(c)){CONFIG.codes.push(c);ecrire('navj_code',c);toast('Premium activé !');setTimeout(()=>location.reload(),700)}
+  else toast('Code invalide. Vérifie et réessaie.');
+},true);
+function versPrem(m){
+  document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x.dataset.t==='prem'));
+  document.querySelectorAll('.sec').forEach(s=>s.classList.toggle('on',s.id==='t-prem'));
+  scrollTo({top:0});toast(m||'Fonction réservée au Premium (1 000 FCFA, à vie)');
+}
+if(!prem()){
+  const LOCK=['svc','forma'];
+  LOCK.forEach(t=>{const b=document.querySelector('nav [data-t='+t+']');if(b)b.insertAdjacentText('beforeend',' 🔒')});
+  document.querySelector('nav').addEventListener('click',e=>{
+    const b=e.target.closest('button');
+    if(!b||!LOCK.includes(b.dataset.t))return;
+    e.stopImmediatePropagation();e.preventDefault();
+    versPrem('🔒 Cet onglet est réservé au Premium (1 000 FCFA, à vie)');
+  },true);
+  document.addEventListener('click',e=>{
+    const t=e.target;
+    if(['rpB','rpS','bCorr'].includes(t.id)||(t.dataset&&(t.dataset.p||t.dataset.s))){
+      e.stopImmediatePropagation();e.preventDefault();
+      versPrem('🔒 Photos, vidéos et correction du texte : réservés au Premium');
+    }
+  },true);
+  ['rpB','rpS','bCorr','bPDF'].forEach(i=>{const b=$(i);if(b)b.insertAdjacentText('beforeend',' 🔒')});
+  document.querySelectorAll('#t-sante details.p').forEach((d,i)=>{
+    if(i<3)return;
+    const s=d.querySelector('summary').textContent;
+    d.innerHTML='<summary>🔒 '+s+'</summary>';
+    d.addEventListener('click',ev=>{ev.preventDefault();versPrem('🔒 Cette fiche est réservée au Premium')});
+  });
+  const eb=$('etBtn');
+  eb.innerHTML='<p class="mu">🔒 Conseils personnalisés (stress, fatigue, malaise) et demande de relève : réservés au Premium.</p>';
+  eb.onclick=()=>versPrem('🔒 Réservé au Premium');
+  const av=document.querySelector('#t-sante .avert');
+  if(av)av.insertAdjacentHTML('afterend','<p class="mu">Gratuit : les 3 gestes vitaux (arrêt cardiaque, hémorragie, étouffement) et les numéros d\'urgence. Le reste est en Premium.</p>');
+  $('boxPrem').insertAdjacentHTML('beforebegin','<div class="l" style="align-items:stretch"><div class="c" style="margin:0"><b>🆓 Gratuit</b><p class="mu">• 3 rapports par jour<br>• Envoi WhatsApp<br>• Numéros d\'urgence<br>• 3 gestes vitaux<br>• Horloge et chrono<br>• Aide</p></div><div class="c" style="margin:0;border-color:#F77F00"><b>⭐ Premium</b><p class="mu">• Rapports illimités<br>• 📷 Photos et vidéos<br>• 🔄 Passation avec preuve<br>• ✅ Rondes, incidents, archives<br>• 🩺 Santé complet et relève<br>• 🎓 Formation<br>• ✨ Correction du texte<br>• 📄 PDF preuve</p></div></div><p class="mu" style="text-align:center">1 000 FCFA, paiement unique, à vie</p>');
+  $('bPay').textContent='Activer Premium — 1 000 FCFA';
+}
+majMode();
+})();
+</script>
   <a href="https://wa.me/?text=%F0%9F%87%A8%F0%9F%87%AE%20NAVJ%20AI%20SECURITE%20-%20Par%20PAPA%20DERA%20ELLE%0ATeste%20gratuit%20%3A%20https%3A%2F%2Fnavj-ai-securite.github.io%2FNAVJ-AI-SECURITE%2F" style="position:fixed;right:10px;bottom:64px;z-index:60;padding:10px 14px;background:#ffcc00;color:#000;border-radius:22px;font-weight:900;font-size:13px;text-decoration:none;box-shadow:0 2px 8px #0008">📤 Partager</a>
 </body>
 </html>

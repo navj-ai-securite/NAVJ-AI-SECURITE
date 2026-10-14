@@ -181,7 +181,7 @@ const CONFIG={
   fondateur:"PAPA DERA ELLE",contact:"@papaderaelle",
   waveUrl:"https://pay.wave.com/m/M_ci_BsVtsF_0PH8q/c/ci/?amount=1000",
   limiteGratuit:3,
-  codes:["NAVJ-0000"],
+  codes:[],
   imagePlateau:""
 };
 const $=id=>document.getElementById(id);
@@ -512,7 +512,8 @@ function capter(o){return new Promise(async res=>{
   const v=document.createElement('video');v.srcObject=stream;v.muted=true;v.playsInline=true;await v.play();
   const c=ov.querySelector('canvas'),x=c.getContext('2d');c.width=v.videoWidth||640;c.height=v.videoHeight||480;
   let pos=null,go=true,mr,ch=[],tm;
-  if(navigator.geolocation)navigator.geolocation.getCurrentPosition(p=>{pos={lat:p.coords.latitude,lon:p.coords.longitude}},()=>{},{timeout:8000,enableHighAccuracy:true});
+  const bP=ov.querySelector('#mP'),bV=ov.querySelector('#mV'),pret=()=>{bP.disabled=bV.disabled=false;bP.textContent='📷 Photo'};
+  if(navigator.geolocation){bP.disabled=bV.disabled=true;bP.textContent='⏳ Recherche GPS...';navigator.geolocation.getCurrentPosition(p=>{pos={lat:p.coords.latitude,lon:p.coords.longitude};pret()},()=>pret(),{timeout:8000,enableHighAccuracy:true})}
   const fs=Math.max(14,Math.round(c.width/30)),bh=3*(fs+4)+8;
   const loop=()=>{if(!go)return;
     x.drawImage(v,0,0,c.width,c.height);
@@ -562,7 +563,10 @@ async function partager(ref){
 const CACHE={},vd=$('v-doc');
 const th=m=>{const u=URL.createObjectURL(m.blob),h=Math.max(0,Math.ceil((exp(m)-Date.now())/HOUR));
   return `<div style="width:46%;font-size:11px">${m.kind==='photo'?`<img src="${u}" oncontextmenu="return false" style="width:100%;border-radius:8px">`:`<video src="${u}" controls controlsList="nodownload" oncontextmenu="return false" style="width:100%;border-radius:8px"></video>`}<br>${esc(m.role)} · effacé dans ${h} h max</div>`};
+let busy=false;
 async function inject(id){
+  if(busy)return;busy=true;
+  try{
   const ms=(await all()).filter(m=>m.ref===id);CACHE[id]=ms;
   let h='<div id="nvX" class="avt"><b>📎 Preuves photo et vidéo</b><br>Prises en direct avec la caméra (pas de galerie), liées à ce seul document. Effacées de cet appareil 24 h après le partage, ou 48 h si elles ne sont pas partagées.';
   if(id.startsWith('PAS-')){
@@ -570,7 +574,9 @@ async function inject(id){
     h+=`<p><b>Présence des deux personnes :</b> ${v.ok?'✅ cohérente':'⚠ à vérifier'}${v.r.length?'<br>'+v.r.join('<br>'):''}</p><button class="vt" data-p="Transmetteur">📸 Photo du transmetteur</button><button class="vt" data-p="Destinataire">📸 Photo du destinataire</button><p class="mu">Les deux photos se prennent l'une après l'autre, sur ce téléphone, avec les deux personnes sur place. L'application signale des incohérences mais ne peut pas prouver l'identité : un responsable doit vérifier.</p>`;
   }
   h+='<button class="gr" data-p="Pièce">📷 Joindre une photo ou une vidéo</button><button class="gr" data-s="1">📤 Partager les médias</button><div class="ch">'+ms.map(th).join('')+'</div></div>';
+  vd.querySelectorAll('#nvX').forEach(n=>n.remove());
   vd.insertAdjacentHTML('beforeend',h);
+  }finally{busy=false}
 }
 new MutationObserver(()=>{if(vd.hidden||!vd.dataset.id||vd.querySelector('#nvX'))return;inject(vd.dataset.id)}).observe(vd,{childList:true});
 vd.addEventListener('click',e=>{
@@ -587,7 +593,7 @@ vd.addEventListener('click',async e=>{
   const rec=lire('navj_svc',[]).find(r=>r.id===id)||{d:{}};
   const nom=p==='Transmetteur'?rec.d.de:p==='Destinataire'?rec.d.a:$('agent').value.trim();
   const m=await capter({ref:id,role:p,nom,site:rec.soc||societe(),facing:'user'});
-  if(m){const o=$('nvX');if(o)o.remove();inject(id);toast('Enregistré sur cet appareil')}
+  if(m){vd.querySelectorAll('#nvX').forEach(n=>n.remove());toast('Enregistré sur cet appareil')}
 });
 
 $('bGen').insertAdjacentHTML('beforebegin','<div class="avt"><b>📷 Photos et vidéos du rapport</b><br>Prises en direct (pas de galerie), jointes au prochain rapport généré.</div><button class="gr" id="rpB" type="button">📷 Joindre une photo ou une vidéo</button><p class="mu" id="rpN"></p>');
@@ -606,10 +612,11 @@ new MutationObserver(async()=>{
 cnt();
 })();
 </script>
-  <script>
+<script src="codes.js"></script>
+<script>
 (function(){
 const H=s=>{let a=0xdeadbeef,b=0x41c6ce57;for(let i=0;i<s.length;i++){const c=s.charCodeAt(i);a=Math.imul(a^c,2654435761);b=Math.imul(b^c,1597334677)}a=Math.imul(a^(a>>>16),2246822507);a^=Math.imul(b^(b>>>13),3266489909);b=Math.imul(b^(b>>>16),2246822507);b^=Math.imul(a^(a>>>13),3266489909);return(4294967296*(2097151&b)+(a>>>0)).toString(36)};
-const HASHES=["hzo43w1lpr","1wex3uvsz74","iesio3lahf","1kk7s25xsxo","1scxhqyyr3c","9umhnuqp3m","f4997yeclv","1s6jwgp5wjs","76cikefb4p","1t6sqvteq0o","2bi36gq2rhb","ny2j5efu0f","2en0rwa6gzv","1ket4m7p8pd","9g5g0na95d","1782h13hqtl","1crjyvm2kfv","1vhxw27oj9r","1ypyx7qp9o8","1wr0wj4czv5","i7d5dnbs75","1pce2d8hqu0","1ngpg05kax9","yt9kufzn6o","3eabtd453t","14nt2fkq3y","eifjjjci89","1ugks2trveo","2cev9qs3aiv","1o5m6mkcvbj"];
+const HASHES=window.NAVJ_HASHES||[];
 const norm=s=>String(s||'').trim().toUpperCase().replace(/\s+/g,'');
 const ok=c=>HASHES.includes(H(norm(c)));
 CONFIG.codes.length=0;
@@ -661,8 +668,7 @@ if(!prem()){
 }
 majMode();
 })();
-    
 </script>
-  <a href="https://wa.me/?text=%F0%9F%87%A8%F0%9F%87%AE%20NAVJ%20AI%20SECURITE%20-%20Par%20PAPA%20DERA%20ELLE%0ATeste%20gratuit%20%3A%20https%3A%2F%2Fnavj-ai-securite.github.io%2FNAVJ-AI-SECURITE%2F" style="position:fixed;right:10px;bottom:64px;z-index:60;padding:10px 14px;background:#ffcc00;color:#000;border-radius:22px;font-weight:900;font-size:13px;text-decoration:none;box-shadow:0 2px 8px #0008">📤 Partager</a>
+<a href="https://wa.me/?text=%F0%9F%87%A8%F0%9F%87%AE%20NAVJ%20AI%20SECURITE%20-%20Par%20PAPA%20DERA%20ELLE%0ATeste%20gratuit%20%3A%20https%3A%2F%2Fnavj-ai-securite.github.io%2FNAVJ-AI-SECURITE%2F" target="_blank" rel="noopener" style="position:fixed;right:10px;bottom:64px;z-index:60;padding:10px 14px;background:#ffcc00;color:#000;border-radius:22px;font-weight:900;font-size:13px;text-decoration:none;box-shadow:0 2px 8px #0008">📤 Partager</a>
 </body>
 </html>
